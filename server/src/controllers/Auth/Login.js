@@ -16,7 +16,7 @@ const Login = async (req, res) => {
     );
 
     if (!passwordSame) {
-      res.send("Wrong Password");
+      return res.send("Wrong Password");
     }
 
     const authUser = { emailId: req.body.emailId };

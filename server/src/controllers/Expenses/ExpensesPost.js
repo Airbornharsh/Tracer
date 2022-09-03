@@ -2,7 +2,6 @@ const expenses = require("../../models/expenses");
 
 const ExpensesPost = async (req, res, next) => {
   try {
-    console.log(req.user);
 
     const Expense = new expenses({
       amount: req.body.amount,
