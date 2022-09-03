@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const expensesSchema = new Schema({
   time: {
-    type: String,
-    required: true,
+    type: Date,
+    default: Date.now(),
   },
   amount: {
     type: Number,
@@ -19,9 +19,10 @@ const expensesSchema = new Schema({
     type: String,
     required: true,
   },
-  userId: {
-    type: Schema.Types.ObjectId,
+  emailId: {
+    type: String,
     required: true,
+    ref: "User",
   },
 });
 

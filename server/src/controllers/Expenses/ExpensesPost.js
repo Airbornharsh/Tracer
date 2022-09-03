@@ -7,7 +7,7 @@ const ExpensesPost = async (req, res, next) => {
       title: req.body.title,
       time: Date.now(),
       category: req.body.category.toLowerCase(),
-      userId: "999999999999",
+      emailId: "999999999999",
     });
     const data = await Expense.save();
 
