@@ -1,13 +1,13 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const DbConnect = require("./config/Database_config");
-const Routes = require("./Routes");
+const Router = require("./Routes");
 
 const app = express();
 
 app.use(bodyParser.json());
 
-Routes(app);
+app.use(Router);
 
 app.use("*", (req, res, next) => {
   res.send("404 Not Found");
