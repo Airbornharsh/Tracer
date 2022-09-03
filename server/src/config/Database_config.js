@@ -12,4 +12,4 @@ const DbConnect = async () => {
   }
 };
 
-module.exports = DbConnect;
+module.exports = DbConnect; 

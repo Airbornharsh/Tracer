@@ -1,6 +1,10 @@
 const expenses = require("../../models/expenses");
 
 const ExpensePut = async (req, res) => {
+  if (req.params.id.length !== 24) {
+    return res.status(400).send("Wrong Expense Id");
+  }
+
   try {
     if (req.body.title) {
       await expenses.findByIdAndUpdate(req.params.id, {

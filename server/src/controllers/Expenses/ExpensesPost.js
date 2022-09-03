@@ -2,12 +2,14 @@ const expenses = require("../../models/expenses");
 
 const ExpensesPost = async (req, res, next) => {
   try {
+    console.log(req.user);
+
     const Expense = new expenses({
       amount: req.body.amount,
       title: req.body.title,
       time: Date.now(),
       category: req.body.category.toLowerCase(),
-      emailId: "999999999999",
+      emailId: req.user.emailId,
     });
     const data = await Expense.save();
 

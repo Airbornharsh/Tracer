@@ -22,7 +22,6 @@ const expensesSchema = new Schema({
   emailId: {
     type: String,
     required: true,
-    ref: "User",
   },
 });
 
