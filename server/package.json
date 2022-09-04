@@ -4,7 +4,7 @@
   "description": "Money Tracker Backend",
   "main": "src/index.js",
   "scripts": {
-    "start": "index.js",
+    "start": "node src/index.js",
     "dev": "index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
