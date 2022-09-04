@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
-import Context from "../Context/Context";
+import Context from "../../Context/Context";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");

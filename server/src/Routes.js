@@ -8,12 +8,16 @@ const ExpensesPost = require("./controllers/Expenses/ExpensesPost");
 const Register = require("./controllers/Auth/Register");
 const Login = require("./controllers/Auth/Login");
 const authenticateToken = require("./middlewares/authenticateToken");
+const ChangePassword = require("./controllers/Auth/ChangePassword");
+const RegisterOtpVerify = require("./controllers/Auth/RegisterOtpVerify");
 
 const Router = express.Router();
 
 Router.get("/", Get);
 Router.post("/user/register", Register);
+Router.post("/user/registerotpverify", RegisterOtpVerify);
 Router.post("/user/login", Login);
+Router.put("/user/changepassword", authenticateToken, ChangePassword);
 Router.post("/expenses", authenticateToken, ExpensesPost);
 Router.get("/expenses", authenticateToken, ExpensesGet);
 Router.get(
