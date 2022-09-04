@@ -4,8 +4,8 @@
   "description": "Money Tracker Backend",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon index.js",
+    "start": "index.js",
+    "dev": "index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Harsh Keshri",
