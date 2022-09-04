@@ -8,19 +8,21 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
-// login("harshkeshri1234567@gmail.com");
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(Router);
 
-app.use(Router);
+// app.use("*", (req, res, next) => {
+//   res.send("404 Not Found");
+// });
 
-app.use("*", (req, res, next) => {
-  res.send("404 Not Found");
+// DbConnect();
+
+app.get("/", (req, res) => {
+  res.send("HELLO");
 });
-
-DbConnect();
 
 app.listen("4000", () => {
   console.log("Server Started At 4000");
