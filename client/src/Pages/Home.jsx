@@ -39,7 +39,7 @@ const Home = () => {
   };
 
   return (
-    <div className="pt-10 flex flex-col items-center">
+    <div className="flex flex-col items-center pt-10">
       <ul className="flex justify-start  w-[80vw] max-w-[80rem] flex-wrap">
         {CategoryRenderData.map((data) => {
           return (
@@ -53,9 +53,9 @@ const Home = () => {
               <img
                 src={data.imgSrc}
                 alt={data.name}
-                className="h-20 w-20 mx-3"
+                className="w-20 h-20 mx-3"
               />
-              <h4 className={`text-[${data.colorCode}] mt-5 inderFont`}>
+              <h4 className={`${data.id}TextColor mt-5 inderFont`}>
                 {data.name}
               </h4>
             </li>

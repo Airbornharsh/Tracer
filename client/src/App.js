@@ -4,7 +4,7 @@ import Loader from "./Utils/Loader";
 
 function App() {
   return (
-    <div className="bg-Color1 min-h-screen min-w-screen flex flex-col justify-start items-center">
+    <div className="flex flex-col items-center justify-start min-h-screen bg-Color1 min-w-screen">
       <Loader />
       <NavBar />
       <RoutesContainer />
