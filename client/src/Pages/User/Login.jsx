@@ -37,7 +37,7 @@ const Login = () => {
 
   return (
     <div className="max-w-[28rem] bg-white my-28 rounded-xl shadow-xl relative flex flex-col items-center w-[90vw]">
-      <form className="inderFont flex flex-col px-[4rem] py-6  items-center ">
+      <form className="inderFont flex flex-col px-[4rem] py-6 max500:px-[1rem]  items-center ">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
             <label className="text-[1.5rem]">Email Id</label>

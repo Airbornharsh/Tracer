@@ -64,7 +64,7 @@ const Register = () => {
   };
   const sendingCode = () => {
     return (
-      <form className="inderFont flex flex-col px-[4rem] py-6  items-center">
+      <form className="inderFont flex flex-col px-[4rem] max500:px-[1rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
             <label className="text-[1.5rem]">Name</label>
@@ -126,7 +126,7 @@ const Register = () => {
 
   const verifyingCode = () => {
     return (
-      <form className="inderFont flex flex-col px-[4rem] py-6  items-center">
+      <form className="inderFont flex flex-col px-[4rem] max500:px-[1rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
             <label className="text-[1.5rem]">Code</label>
