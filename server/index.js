@@ -1,8 +1,8 @@
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const express = require("express");
-const DbConnect = require("./config/Database_config");
-const Router = require("./Routes");
+const DbConnect = require("./src/config/Database_config");
+const Router = require("./src/Routes");
 const cors = require("cors");
 const path = require("path");
 
