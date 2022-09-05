@@ -7,8 +7,69 @@ const Profile = () => {
   const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
   const [expenses, setExpenses] = useState([]);
+  const [weeklyDatas, setWeeklyDatas] = useState([]);
+  const highestWeeklyAmount = 4000;
 
   const params = useParams();
+
+  const WeeklyDatasFn = (datas) => {
+    const todaysDate = new Date(Date.now()).toString().split(" ")[2];
+    const thisMonth = new Date(Date.now()).toString().split(" ")[1];
+
+    const day0 = { maxAmount: 0 };
+    const day1 = { maxAmount: 0 };
+    const day2 = { maxAmount: 0 };
+    const day3 = { maxAmount: 0 };
+    const day4 = { maxAmount: 0 };
+    const day5 = { maxAmount: 0 };
+    const day6 = { maxAmount: 0 };
+
+    datas.map((data) => {
+      if (new Date(data.time).toString().split(" ")[1] === thisMonth) {
+        switch (todaysDate - new Date(data.time).toString().split(" ")[2]) {
+          case 0:
+            day0.maxAmount += data.amount;
+            day0.week = new Date(data.time).toString().split(" ")[0];
+            break;
+
+          case 1:
+            day1.maxAmount += data.amount;
+            day1.week = new Date(data.time).toString().split(" ")[0];
+            break;
+
+          case 2:
+            day2.maxAmount += data.amount;
+            day2.week = new Date(data.time).toString().split(" ")[0];
+            break;
+
+          case 3:
+            day3.maxAmount += data.amount;
+            day3.week = new Date(data.time).toString().split(" ")[0];
+            break;
+
+          case 4:
+            day4.maxAmount += data.amount;
+            day4.week = new Date(data.time).toString().split(" ")[0];
+            break;
+
+          case 5:
+            day5.maxAmount += data.amount;
+            day5.week = new Date(data.time).toString().split(" ")[0];
+            break;
+
+          case 6:
+            day6.maxAmount += data.amount;
+            day6.week = new Date(data.time).toString().split(" ")[1];
+            break;
+          default:
+        }
+      }
+
+      return data;
+    });
+
+    setWeeklyDatas([day0, day1, day2, day3, day4, day5, day6]);
+  };
 
   useEffect(() => {
     const onLoad = async () => {
@@ -30,7 +91,7 @@ const Profile = () => {
             },
           }
         );
-        console.log(data);
+        WeeklyDatasFn(data.data);
         setExpenses(data.data);
         UtilCtx.current.setLoader(false);
       } catch (e) {
@@ -43,8 +104,8 @@ const Profile = () => {
   }, [params.categoryid]);
 
   return (
-    <ul className="flex items-start justify-start mt-8 w-[88vw] max-w-[83rem] flex-wrap">
-      <li className="p-3 m-2 bg-white rounded-md shadow-lg w-96">
+    <ul className=" mt-8 w-[88vw] max-w-[83rem] flex flex-wrap">
+      <li className="p-3 m-2 bg-white rounded-md shadow-lg w-96 max-h-[7.5rem]">
         <ul className="h-[100%] overflow-hidden">
           <li className="flex mb-2">
             <b>Name:</b>
@@ -108,6 +169,56 @@ const Profile = () => {
         ) : (
           <div>Nothing Found</div>
         )}
+      </li>
+      <li className="p-3  pb-10 m-2 bg-white rounded-md shadow-lg h-80 w-[30rem] flex justify-center items-center mb-24 flex-col">
+        <h3 className="text-[1.2rem] inderFont">Weekly Expenses</h3>
+        <div className="border-[2px] border-t-0 border-black h-[95%] w-[90%] flex justify-center items-center">
+          <ul className="flex flex-row-reverse h-[100%] items-end">
+            {weeklyDatas.map((data, index) => {
+              const tempHeight = (13 * data.maxAmount) / highestWeeklyAmount;
+
+              let tempBgColor;
+              if (tempHeight / 13 > 0.65) {
+                tempBgColor = "red";
+              } else if (tempHeight / 13 > 0.33) {  
+                tempBgColor = "blue";
+              } else {
+                tempBgColor = "green";
+              }
+
+              if (data.week) {
+                return (
+                  <li
+                    key={index}
+                    className="relative flex items-center justify-center w-6 mx-2"
+                  >
+                    <div className={`w-6 h-[13rem] bg-slate-200`} />
+                    <div
+                      className={`w-6 absolute bottom-0 right-0`}
+                      style={{
+                        height: `${tempHeight}rem`,
+                        backgroundColor: `${tempBgColor}`,
+                      }}
+                    />
+                    <p className="absolute bottom-[-1.6rem] inderFont">{data.week}</p>
+                    <p className="absolute top-[-1.2rem] z-10 text-[0.8rem] inderFont">
+                      {data.maxAmount}
+                    </p>
+                  </li>
+                );
+              } else {
+                return (
+                  <li
+                    key={index}
+                    className="relative flex items-center justify-center w-6 mx-4"
+                  >
+                    <div className={`w-6 h-[13rem] bg-slate-200`} />
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        </div>
       </li>
     </ul>
   );
