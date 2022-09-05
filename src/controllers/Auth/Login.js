@@ -21,9 +21,7 @@ const Login = async (req, res) => {
 
     const authUser = { emailId: req.body.emailId };
 
-    const accessToken = jwt.sign(authUser, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const accessToken = jwt.sign(authUser, process.env.JWT_SECRET);
     res.send({ accessToken });
   } catch (e) {
     res.send(e.message);
