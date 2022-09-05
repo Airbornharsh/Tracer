@@ -11,6 +11,8 @@ const Context = createContext({
     loader: "",
     setLoader: () => {},
   },
+  accessToken: "",
+  setAccessToken: () => {},
 });
 
 export default Context;

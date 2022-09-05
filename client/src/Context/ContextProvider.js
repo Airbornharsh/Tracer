@@ -5,6 +5,9 @@ const ContextProvider = (props) => {
   const [isLogged, setIsLogged] = useState(false);
   const [emailId, setEmailId] = useState("");
   const [loader, setLoader] = useState(false);
+  const [accessToken, setAccessToken] = useState(
+    window.localStorage.getItem("TracerAccessToken")
+  );
 
   const setIsLoggedFn = (data) => {
     setIsLogged(data);
@@ -18,6 +21,10 @@ const ContextProvider = (props) => {
     setLoader(data);
   };
 
+  const setAccessTokenFn = (data) => {
+    setAccessToken(data);
+  };
+
   const ContextData = {
     user: {
       isLogged: isLogged,
@@ -29,6 +36,8 @@ const ContextProvider = (props) => {
       loader: loader,
       setLoader: setLoaderFn,
     },
+    accessToken: accessToken,
+    setAccessToken: setAccessTokenFn,
   };
 
   return (

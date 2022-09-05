@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import Context from "../../Context/Context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -22,11 +22,14 @@ const Register = () => {
     UtilCtx.setLoader(true);
 
     try {
-      const res = await axios.post("https://mtrace.herokuapp.com/user/register", {
-        name,
-        emailId,
-        password,
-      });
+      const res = await axios.post(
+        "https://mtrace.herokuapp.com/user/register",
+        {
+          name,
+          emailId,
+          password,
+        }
+      );
       setAccessToken(res.data.accessToken);
       setIsCodeSent(true);
       UtilCtx.setLoader(false);
@@ -59,7 +62,7 @@ const Register = () => {
   };
   const sendingCode = () => {
     return (
-      <form className="inderFont flex flex-col px-[4rem] py-12  items-center">
+      <form className="inderFont flex flex-col px-[4rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
             <label className="text-[1.5rem]">Name</label>
@@ -121,7 +124,7 @@ const Register = () => {
 
   const verifyingCode = () => {
     return (
-      <form className="inderFont flex flex-col px-[4rem] py-12  items-center">
+      <form className="inderFont flex flex-col px-[4rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
             <label className="text-[1.5rem]">Name</label>
@@ -147,9 +150,12 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-7rem)]">
-      <div className="w-[28rem] bg-white mb-28 rounded-xl shadow-xl relative ">
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-[28rem] bg-white rounded-xl shadow-xl relative flex flex-col items-center">
         {!isCodeSent ? sendingCode() : verifyingCode()}
+        <Link to="/user/login" className="pb-5">
+          Login Instead
+        </Link>
       </div>
     </div>
   );
