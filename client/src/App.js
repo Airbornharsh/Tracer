@@ -5,22 +5,22 @@ import RoutesContainer from "./Routes";
 import Loader from "./Utils/Loader";
 
 function App() {
-  const Ctx = useRef(useContext(Context));
+  const Ctx = useContext(Context);
   const UserCtx = useRef(useContext(Context).user);
 
-  // window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
-  window.localStorage.setItem("Tracer-Backend-URI", "https://mtrace.herokuapp.com");
+  window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
+  // window.localStorage.setItem("Tracer-Backend-URI", "https://mtrace.herokuapp.com");
 
   useEffect(() => {
-    console.log(Ctx.current.accessToken);
+    console.log(Ctx.accessToken);
 
-    if (Ctx.current.accessToken) {
+    if (Ctx.accessToken) {
       UserCtx.current.setIsLogged(true);
     } else {
       console.log("not Logged");
       UserCtx.current.setIsLogged(false);
     }
-  }, []);
+  }, [Ctx.accessToken]);
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-Color1 min-w-screen">

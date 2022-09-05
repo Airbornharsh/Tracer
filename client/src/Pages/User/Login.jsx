@@ -23,7 +23,7 @@ const Login = () => {
         password,
       });
       window.localStorage.setItem("TracerAccessToken", res.data.accessToken);
-      Ctx.setAccessToken(res.data.accessToken);
+      Ctx.setAccessToken(window.localStorage.getItem("TracerAccessToken"));
       UtilCtx.setLoader(false);
       Navigate("/");
     } catch (e) {

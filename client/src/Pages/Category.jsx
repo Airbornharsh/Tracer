@@ -7,6 +7,7 @@ import Context from "../Context/Context";
 const Category = () => {
   const [expenses, setExpenses] = useState([]);
   const UtilCtx = useRef(useContext(Context).util);
+  const Ctx = useRef(useContext(Context));
   let categoryData;
 
   const params = useParams();
@@ -20,6 +21,11 @@ const Category = () => {
       UtilCtx.current.setLoader(true);
 
       try {
+        if (!Ctx.current.accessToken) {
+          UtilCtx.current.setLoader(false);
+          console.log("Nothing");
+        }
+
         const data = await axios.get(
           `${window.localStorage.getItem(
             "Tracer-Backend-URI"
