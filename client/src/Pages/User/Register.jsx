@@ -23,7 +23,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "https://mtrace.herokuapp.com/user/register",
+        `${window.localStorage.getItem("Tracer-Backend-URI")}/user/register`,
         {
           name,
           emailId,
@@ -46,7 +46,9 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/user/registerotpverify",
+        `${window.localStorage.getItem(
+          "Tracer-Backend-URI"
+        )}/user/registerotpverify`,
         {
           accessToken,
           otp,

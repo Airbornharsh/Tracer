@@ -22,7 +22,7 @@ const Home = () => {
     try {
       console.log("started");
       await axios.post(
-        "https://mtrace.herokuapp.com/expenses",
+        `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
         {
           title,
           amount,

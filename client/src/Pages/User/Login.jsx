@@ -18,10 +18,13 @@ const Login = () => {
     UtilCtx.setLoader(true);
 
     try {
-      const res = await axios.post("https://mtrace.herokuapp.com/user/login", {
-        emailId,
-        password,
-      });
+      const res = await axios.post(
+        `${window.localStorage.getItem("Tracer-Backend-URI")}/user/login`,
+        {
+          emailId,
+          password,
+        }
+      );
       window.localStorage.setItem("TracerAccessToken", res.data.accessToken);
       Ctx.setAccessToken(window.localStorage.getItem("TracerAccessToken"));
       UtilCtx.setLoader(false);
