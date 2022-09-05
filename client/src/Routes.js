@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import AddExpense from "./Pages/AddExpense";
 import Category from "./Pages/Category";
 import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
@@ -17,6 +18,7 @@ const RoutesContainer = () => {
       <Route path="/user/forgotpassword" element={<Login />} />
       <Route path="/category/:categoryid" element={<Category />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/addexpense" element={<AddExpense />} />
     </Routes>
   );
 };
