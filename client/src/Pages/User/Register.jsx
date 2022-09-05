@@ -22,7 +22,7 @@ const Register = () => {
     UtilCtx.setLoader(true);
 
     try {
-      const res = await axios.post("http://localhost:4000/user/register", {
+      const res = await axios.post("https://mtrace.herokuapp.com/user/register", {
         name,
         emailId,
         password,

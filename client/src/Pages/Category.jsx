@@ -21,7 +21,7 @@ const Category = () => {
 
       try {
         const data = await axios.get(
-          `http://localhost:4000/expenses/category/${params.categoryid}`,
+          `https://mtrace.herokuapp.com/expenses/category/${params.categoryid}`,
           {
             headers: {
               authorization: `Bearer ${window.localStorage.getItem(

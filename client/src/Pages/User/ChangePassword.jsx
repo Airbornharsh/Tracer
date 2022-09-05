@@ -19,7 +19,7 @@ const ChangePassword = () => {
 
     try {
       const res = await axios.put(
-        "http://localhost:4000/user/changepassword",
+        "https://mtrace.herokuapp.com/user/changepassword",
         {
           password: currentPassword,
           newPassword: password,

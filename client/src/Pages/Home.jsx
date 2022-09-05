@@ -18,7 +18,7 @@ const Home = () => {
     try {
       console.log("started");
       const data = await axios.post(
-        "http://localhost:4000/expenses",
+        "https://mtrace.herokuapp.com/expenses",
         {
           title,
           amount,
