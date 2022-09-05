@@ -12,14 +12,16 @@ const Home = () => {
   const [amount, setAmount] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const UserCtx = useContext(Context).user;
+  const UtilCtx = useContext(Context).util;
   const Navigate = useNavigate();
 
   const submitExpense = async (e) => {
     e.preventDefault();
+    UtilCtx.setLoader(true);
 
     try {
       console.log("started");
-      const data = await axios.post(
+      await axios.post(
         "https://mtrace.herokuapp.com/expenses",
         {
           title,
@@ -34,9 +36,12 @@ const Home = () => {
           },
         }
       );
-      console.log(data);
+      setIsAdding(false);
+      UtilCtx.setLoader(false);
     } catch (e) {
       console.log(e.message);
+      setIsAdding(false);
+      UtilCtx.setLoader(false);
     }
   };
 
