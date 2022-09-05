@@ -64,6 +64,8 @@ const Profile = () => {
         {expenses ? (
           <ul className="flex flex-col overflow-auto h-[18.5rem]">
             {expenses.map((expense, index) => {
+              const date = new Date(expense.time).toString().split(" ");
+
               if (index % 2 === 1) {
                 return (
                   <li
@@ -72,7 +74,14 @@ const Profile = () => {
                   >
                     <p className="pl-1">{index + 1}.</p>
                     <p className="pl-3">{expense.title}</p>
-                    <p className="absolute right-4">Rs {expense.amount}</p>
+                    <span className="absolute flex right-4">
+                      <p>{date[0]}</p>
+                      <p className="ml-1">{date[2]}</p>
+                      <p className="ml-1">{date[1]}</p>
+                      <p className="w-[4.3rem] text-right">
+                        Rs {expense.amount}
+                      </p>
+                    </span>
                   </li>
                 );
               } else {
@@ -83,7 +92,14 @@ const Profile = () => {
                   >
                     <p className="pl-1">{index + 1}.</p>
                     <p className="pl-3">{expense.title}</p>
-                    <p className="absolute right-4">Rs {expense.amount}</p>
+                    <span className="absolute flex right-4">
+                      <p>{date[0]}</p>
+                      <p className="ml-1">{date[2]}</p>
+                      <p className="ml-1">{date[1]}</p>
+                      <p className="w-[4.3rem] text-right">
+                        Rs {expense.amount}
+                      </p>
+                    </span>
                   </li>
                 );
               }
