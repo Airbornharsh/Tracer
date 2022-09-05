@@ -13,8 +13,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "../../client/build")));
-
 app.use(Router);
 
 app.use("*", (req, res, next) => {
