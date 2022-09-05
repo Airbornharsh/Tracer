@@ -8,8 +8,8 @@ function App() {
   const Ctx = useContext(Context);
   const UserCtx = useRef(useContext(Context).user);
 
-  window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
-  // window.localStorage.setItem("Tracer-Backend-URI", "https://mtrace.herokuapp.com");
+  // window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
+  window.localStorage.setItem("Tracer-Backend-URI", "https://mtrace.herokuapp.com");
 
   useEffect(() => {
     console.log(Ctx.accessToken);
