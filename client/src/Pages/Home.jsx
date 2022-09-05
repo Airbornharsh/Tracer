@@ -82,13 +82,13 @@ const Home = () => {
                 <AiOutlinePlus size="3rem" />
               </div>
             ) : (
-              <div className="w-[28rem] bg-white mb-28 rounded-xl shadow-xl relative">
+              <div className="max-w-[28rem] w-[90vw]  bg-white mb-28 rounded-xl shadow-xl relative">
                 <form className="inderFont flex flex-col px-[4rem] py-12  items-center">
                   <ul className="mb-7">
                     <li className="flex flex-col mb-6">
                       <label className="text-[1.5rem]">Category</label>
                       <select
-                        className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+                        className="max-w-[20rem] w-[80vw] h-10 bg-Color2 p-1 px-2"
                         placeholder="Select Your Type"
                         value={category}
                         onChange={(e) => {
@@ -107,7 +107,7 @@ const Home = () => {
                       <label className="text-[1.5rem]">Title</label>
                       <input
                         type="text"
-                        className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+                        className="max-w-[20rem] w-[80vw] h-10 bg-Color2 p-1 px-2"
                         placeholder="Write Your Title Here ..."
                         value={title}
                         onChange={(e) => {
@@ -119,7 +119,7 @@ const Home = () => {
                       <label className="text-[1.5rem]">Amount</label>
                       <input
                         type="Number"
-                        className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+                        className="max-w-[20rem] w-[80vw] h-10 bg-Color2 p-1 px-2"
                         placeholder="Write Your Amount Here ..."
                         value={amount}
                         onChange={(e) => {
