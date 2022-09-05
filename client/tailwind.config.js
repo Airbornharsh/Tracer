@@ -8,6 +8,9 @@ module.exports = {
         Color2: "#D9D9D9",
         Color3: "#FCDA00",
       },
+      screens: {
+        max500: {max:"500px"}
+      }
     },
   },
   plugins: [],
