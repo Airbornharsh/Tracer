@@ -67,7 +67,7 @@ const Register = () => {
           <li className="flex flex-col mb-6">
             <label className="text-[1.5rem]">Name</label>
             <input
-              className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className=" h-10 bg-Color2 p-1 px-2 w-[80vw] max-w-[20rem]"
               placeholder="Enter Your Name"
               value={name}
               onChange={(e) => {
@@ -79,7 +79,7 @@ const Register = () => {
             <label className="text-[1.5rem]">Email Id</label>
             <input
               type="Email"
-              className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className=" h-10 bg-Color2 p-1 px-2 w-[80vw] max-w-[20rem]"
               placeholder="Enter Your EmailId"
               value={emailId}
               onChange={(e) => {
@@ -91,8 +91,8 @@ const Register = () => {
             <label className="text-[1.5rem]">Password</label>
             <input
               type="Password"
-              className="w-[20rem] h-10 bg-Color2 p-1 px-2"
-              placeholder="OldPassword"
+              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
+              placeholder="Password"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -103,7 +103,7 @@ const Register = () => {
             <label className="text-[1.5rem]">Confirm Password</label>
             <input
               type="text"
-              className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => {
@@ -127,9 +127,9 @@ const Register = () => {
       <form className="inderFont flex flex-col px-[4rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Name</label>
+            <label className="text-[1.5rem]">Code</label>
             <input
-              className="w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
               type="number"
               placeholder="Type Your Otp"
               value={otp}
@@ -151,7 +151,7 @@ const Register = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="w-[28rem] bg-white rounded-xl shadow-xl relative flex flex-col items-center">
+      <div className="max-w-[28rem] w-[90vw] bg-white rounded-xl shadow-xl relative flex flex-col items-center">
         {!isCodeSent ? sendingCode() : verifyingCode()}
         <Link to="/user/login" className="pb-5">
           Login Instead

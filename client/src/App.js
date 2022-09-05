@@ -9,11 +9,12 @@ function App() {
   const UserCtx = useRef(useContext(Context).user);
 
   // window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
-  window.localStorage.setItem("Tracer-Backend-URI", "https://mtrace.herokuapp.com");
+  window.localStorage.setItem(
+    "Tracer-Backend-URI",
+    "https://mtrace.herokuapp.com"
+  );
 
   useEffect(() => {
-    console.log(Ctx.accessToken);
-
     if (Ctx.accessToken) {
       UserCtx.current.setIsLogged(true);
     } else {
@@ -23,7 +24,7 @@ function App() {
   }, [Ctx.accessToken]);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-Color1 min-w-screen">
+    <div className="flex flex-col items-center justify-start min-h-screen bg-Color1 min-w-screen ">
       <Loader />
       <NavBar />
       <RoutesContainer />
