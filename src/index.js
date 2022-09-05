@@ -5,11 +5,9 @@ const DbConnect = require("./config/Database_config");
 const Router = require("./Routes");
 const cors = require("cors");
 
-console.log("Oke");
-
 const app = express();
 app.use(cors());
-
+ 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());

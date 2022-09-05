@@ -21,7 +21,9 @@ const Category = () => {
 
       try {
         const data = await axios.get(
-          `https://mtrace.herokuapp.com/expenses/category/${params.categoryid}`,
+          `${window.localStorage.getItem(
+            "Tracer-Backend-URI"
+          )}/expenses/category/${params.categoryid}`,
           {
             headers: {
               authorization: `Bearer ${window.localStorage.getItem(
@@ -30,7 +32,6 @@ const Category = () => {
             },
           }
         );
-        console.log(data);
         setExpenses(data.data);
         UtilCtx.current.setLoader(false);
       } catch (e) {
