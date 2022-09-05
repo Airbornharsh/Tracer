@@ -4,7 +4,8 @@ const express = require("express");
 const DbConnect = require("./config/Database_config");
 const Router = require("./Routes");
 const cors = require("cors");
-const path = require("path");
+
+console.log("Oke");
 
 const app = express();
 app.use(cors());
