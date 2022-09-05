@@ -22,6 +22,6 @@ app.use("*", (req, res, next) => {
 
 DbConnect();
 
-app.listen("4000", () => {
-  console.log("Server Started At 4000");
+app.listen(process.env.PORT, () => {
+  console.log(`Server Started At ${process.env.PORT}`);
 });
