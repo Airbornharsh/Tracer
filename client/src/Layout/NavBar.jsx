@@ -7,7 +7,7 @@ const NavBar = () => {
   const Navigate = useNavigate();
   return (
     <div className="inderFont h-28 w-[90vw] max-w-[85rem] flex justify-between items-center">
-      <h1 className="text-[1.9rem] font-medium">MTrace</h1>
+      <h1 className="text-[1.9rem] font-medium text-white">MTrace</h1>
       <div className="flex items-center">
         <div
           className="flex items-center justify-center p-1 mr-3 bg-white rounded-md cursor-pointer max500:fixed h-9 w-9 max500:bottom-4 max500:right-4"
