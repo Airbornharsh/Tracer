@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+// import axios from "axios";
 import CategoryRenderData from "../Utils/Data/CategoryRenderData";
 import Context from "../Context/Context";
 
@@ -11,6 +11,7 @@ const Category = () => {
   let categoryData;
 
   const params = useParams();
+  const Navigate = useNavigate();
 
   CategoryRenderData.forEach((data) => {
     if (data.id === params.categoryid) categoryData = data;
@@ -20,34 +21,46 @@ const Category = () => {
     const onLoad = async () => {
       UtilCtx.current.setLoader(true);
 
-      try {
-        if (!Ctx.current.accessToken) {
-          UtilCtx.current.setLoader(false);
-          console.log("Nothing");
-        }
+      // try {
+      //   if (!Ctx.current.accessToken) {
+      //     UtilCtx.current.setLoader(false);
+      //     console.log("Nothing");
+      //   }
 
-        const data = await axios.get(
-          `${window.localStorage.getItem(
-            "Tracer-Backend-URI"
-          )}/expenses/category/${params.categoryid}`,
-          {
-            headers: {
-              authorization: `Bearer ${window.localStorage.getItem(
-                "TracerAccessToken"
-              )}`,
-            },
-          }
-        );
-        setExpenses(data.data);
+      //   const data = await axios.get(
+      //     `${window.localStorage.getItem(
+      //       "Tracer-Backend-URI"
+      //     )}/expenses/category/${params.categoryid}`,
+      //     {
+      //       headers: {
+      //         authorization: `Bearer ${window.localStorage.getItem(
+      //           "TracerAccessToken"
+      //         )}`,
+      //       },
+      //     }
+      //   );
+      //   setExpenses(data.data);
+      if (Ctx.current.expenseData) {
+        const tempData = [];
+
+        Ctx.current.expenseData.map((Data) => {
+          if (Data.category === params.categoryid) tempData.push(Data);
+
+          return Data;
+        });
+
+        setExpenses(tempData);
         UtilCtx.current.setLoader(false);
-      } catch (e) {
-        console.log(e);
-        UtilCtx.current.setLoader(false);
-      }
+      } else Navigate("/");
+      UtilCtx.current.setLoader(false);
+      // } catch (e) {
+      //   console.log(e);
+      //   UtilCtx.current.setLoader(false);
+      // }
     };
 
     onLoad();
-  }, [params.categoryid]);
+  }, [params.categoryid, Navigate]);
 
   return (
     <div className="w-[85vw] max-w-[80rem] flex flex-col items-center ">
@@ -66,12 +79,12 @@ const Category = () => {
         </span>
       </div>
       <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-16 flex flex-wrap max500:justify-center">
-        {expenses.map((expense) => {
+        {expenses.map((expense, index) => {
           const date = new Date(expense.time).toString().split(" ");
 
           return (
             <li
-              key={expense.title}
+              key={index}
               className={`w-64 h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden`}
             >
               <span className="flex flex-col items-center mb-2 ml-4 max500:ml-1">

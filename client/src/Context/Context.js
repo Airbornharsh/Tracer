@@ -4,8 +4,6 @@ const Context = createContext({
   user: {
     isLogged: false,
     setIsLogged: () => {},
-    emailId: "",
-    setEmailId: () => {},
   },
   util: {
     loader: "",
@@ -13,6 +11,10 @@ const Context = createContext({
   },
   accessToken: "",
   setAccessToken: () => {},
+  expenseData: [],
+  setExpenseData: () => {},
+  userData: {},
+  setUserData: () => {},
 });
 
 export default Context;

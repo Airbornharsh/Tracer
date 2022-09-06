@@ -3,18 +3,19 @@ import Context from "./Context";
 
 const ContextProvider = (props) => {
   const [isLogged, setIsLogged] = useState(false);
-  const [emailId, setEmailId] = useState("");
+  const [userData, setUserData] = useState("");
   const [loader, setLoader] = useState(false);
   const [accessToken, setAccessToken] = useState(
     window.localStorage.getItem("TracerAccessToken")
   );
+  const [expenseData, setExpenseData] = useState(false);
 
   const setIsLoggedFn = (data) => {
     setIsLogged(data);
   };
 
-  const setEmailIdFn = (data) => {
-    setEmailId(data);
+  const setUserDataFn = (data) => {
+    setUserData(data);
   };
 
   const setLoaderFn = (data) => {
@@ -25,12 +26,14 @@ const ContextProvider = (props) => {
     setAccessToken(data);
   };
 
+  const setExpenseDataFn = (data) => {
+    setExpenseData(data);
+  };
+
   const ContextData = {
     user: {
       isLogged: isLogged,
       setIsLogged: setIsLoggedFn,
-      emailId: emailId,
-      setEmailId: setEmailIdFn,
     },
     util: {
       loader: loader,
@@ -38,6 +41,10 @@ const ContextProvider = (props) => {
     },
     accessToken: accessToken,
     setAccessToken: setAccessTokenFn,
+    expenseData: expenseData,
+    setExpenseData: setExpenseDataFn,
+    userData: userData,
+    setUserData: setUserDataFn,
   };
 
   return (

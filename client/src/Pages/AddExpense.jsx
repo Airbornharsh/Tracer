@@ -8,6 +8,7 @@ const AddExpense = () => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const UtilCtx = useContext(Context).util;
+  const Ctx = useContext(Context);
 
   const Navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const AddExpense = () => {
 
     try {
       console.log("started");
-      await axios.post(
+      const data = await axios.post(
         `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
         {
           title,
@@ -32,6 +33,9 @@ const AddExpense = () => {
           },
         }
       );
+
+      console.log(data);
+      Ctx.setExpenseData([...Ctx.expenseData, data.data]);
       UtilCtx.setLoader(false);
       Navigate("/");
     } catch (e) {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+// import axios from "axios";
 import {
   Chart as ChartJs,
   Tooltip,
@@ -26,12 +26,11 @@ ChartJs.register(
 const Profile = () => {
   const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
-  const [expenses, setExpenses] = useState([]);
   const [weeklyDatas, setWeeklyDatas] = useState([]);
   const [categoryDatas, setCategoryDatas] = useState([]);
-  const [userData, setUserData] = useState({});
 
   const params = useParams();
+  const Navigate = useNavigate();
 
   const WeeklyDatasFn = (datas) => {
     const todaysDate = new Date(Date.now()).toString().split(" ")[2];
@@ -130,34 +129,33 @@ const Profile = () => {
       try {
         if (!Ctx.current.accessToken) {
           UtilCtx.current.setLoader(false);
-          console.log("Nothing");
         }
 
-        const userData = await axios.get(
-          `${window.localStorage.getItem("Tracer-Backend-URI")}/userdata`,
-          {
-            headers: {
-              authorization: `Bearer ${window.localStorage.getItem(
-                "TracerAccessToken"
-              )}`,
-            },
-          }
-        );
+        // const userData = await axios.get(
+        //   `${window.localStorage.getItem("Tracer-Backend-URI")}/userdata`,
+        //   {
+        //     headers: {
+        //       authorization: `Bearer ${window.localStorage.getItem(
+        //         "TracerAccessToken"
+        //       )}`,
+        //     },
+        //   }
+        // );
 
-        setUserData(userData.data);
+        // setUserData(userData.data);
 
-        const data = await axios.get(
-          `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
-          {
-            headers: {
-              authorization: `Bearer ${window.localStorage.getItem(
-                "TracerAccessToken"
-              )}`,
-            },
-          }
-        );
-        WeeklyDatasFn(data.data);
-        setExpenses(data.data);
+        // const data = await axios.get(
+        //   `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
+        //   {
+        //     headers: {
+        //       authorization: `Bearer ${window.localStorage.getItem(
+        //         "TracerAccessToken"
+        //       )}`,
+        //     },
+        //   }
+        // );
+        if (Ctx.current.expenseData) WeeklyDatasFn(Ctx.current.expenseData);
+        else Navigate("/");
         UtilCtx.current.setLoader(false);
       } catch (e) {
         console.log(e);
@@ -166,7 +164,7 @@ const Profile = () => {
     };
 
     onLoad();
-  }, [params.categoryid]);
+  }, [params.categoryid, Navigate]);
 
   const weeklyDataAmount = weeklyDatas.map((data) => {
     return data.maxAmount;
@@ -183,11 +181,11 @@ const Profile = () => {
         <ul className="h-[100%] overflow-hidden">
           <li className="flex mb-2">
             <b>Name:</b>
-            <p className="ml-1">{userData.name}</p>
+            <p className="ml-1">{Ctx.current.userData.name}</p>
           </li>
           <li className="flex mb-2">
             <b>Email:</b>
-            <p className="ml-1"> {userData.emailId}</p>
+            <p className="ml-1"> {Ctx.current.userData.emailId}</p>
           </li>
           <li className="flex">
             <b>Income:</b>
@@ -196,9 +194,9 @@ const Profile = () => {
         </ul>
       </li>
       <li className="p-3 m-2 bg-white rounded-md shadow-lg h-80 w-96">
-        {expenses ? (
+        {Ctx.current.expenseData ? (
           <ul className="flex flex-col overflow-auto h-[18.5rem]">
-            {expenses.map((expense, index) => {
+            {Ctx.current.expenseData.map((expense, index) => {
               const date = new Date(expense.time).toString().split(" ");
 
               if (index % 2 === 1) {
