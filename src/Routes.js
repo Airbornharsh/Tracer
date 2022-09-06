@@ -10,6 +10,7 @@ const Login = require("./controllers/Auth/Login");
 const authenticateToken = require("./middlewares/authenticateToken");
 const ChangePassword = require("./controllers/Auth/ChangePassword");
 const RegisterOtpVerify = require("./controllers/Auth/RegisterOtpVerify");
+const UserData = require("./controllers/Auth/UserData");
 
 const Router = express.Router();
 
@@ -17,6 +18,7 @@ Router.get("/", Get);
 Router.post("/user/register", Register);
 Router.post("/user/registerotpverify", RegisterOtpVerify);
 Router.post("/user/login", Login);
+Router.get("/userdata", authenticateToken, UserData);
 Router.put("/user/changepassword", authenticateToken, ChangePassword);
 Router.post("/expenses", authenticateToken, ExpensesPost);
 Router.get("/expenses", authenticateToken, ExpensesGet);
