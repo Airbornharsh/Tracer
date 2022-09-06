@@ -72,17 +72,17 @@ const Category = () => {
           return (
             <li
               key={expense.title}
-              className={`w-64 h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-40 max500:h-[4.9rem] overflow-hidden`}
+              className={`w-64 h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden`}
             >
-              <span className="flex flex-col items-center mb-2 ml-4 max500:ml-2">
-                <p className="text-[2.3rem] max500:text-[1.7rem] h-11 max500:h-9">
+              <span className="flex flex-col items-center mb-2 ml-4 max500:ml-1">
+                <p className="text-[2.3rem] max500:text-[1.4rem] h-11 max500:h-6">
                   {date[2]}
                 </p>
-                <p className="text-[1.5rem] max500:text-[1rem]">{date[1]}</p>
+                <p className="text-[1.5rem] max500:text-[0.8rem]">{date[1]}</p>
               </span>
-              <span className="h-[80%] w-[0.05rem] ml-3 bg-black"></span>
-              <span className="ml-3 overflow-hidden w-42">
-                <p className="text-[1.8rem] max500:text-[1.2rem]">
+              <span className="h-[80%] w-[0.05rem] ml-3 bg-black max500:ml-1"></span>
+              <span className="ml-3 overflow-hidden w-42 max500:ml-2 max500:w-14">
+                <p className="text-[1.8rem] max500:text-[1rem]">
                   {expense.title}
                 </p>
                 <p className="text-[1.15rem] max500:text-[0.8rem]">
