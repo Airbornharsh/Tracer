@@ -1,12 +1,15 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import Context from "../Context/Context";
+import { useNavigate } from "react-router-dom";
 
 const AddExpense = () => {
   const [category, setCategory] = useState("food");
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const UtilCtx = useContext(Context).util;
+
+  const Navigate = useNavigate();
 
   const submitExpense = async (e) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ const AddExpense = () => {
         }
       );
       UtilCtx.setLoader(false);
+      Navigate("/");
     } catch (e) {
       console.log(e.message);
       UtilCtx.setLoader(false);
