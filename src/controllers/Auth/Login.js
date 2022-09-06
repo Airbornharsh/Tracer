@@ -7,7 +7,7 @@ const Login = async (req, res) => {
   try {
     const tempUser = await user.findOne({ emailId: req.body.emailId });
     if (!tempUser) {
-      return res.send(`No Such ${req.body.emailId} Id Exist`);
+      return res.status(400).send(`No Such ${req.body.emailId} Id Exist`);
     }
 
     const passwordSame = await bcrypt.compare(
@@ -16,7 +16,7 @@ const Login = async (req, res) => {
     );
 
     if (!passwordSame) {
-      return res.send("Wrong Password");
+      return res.status(401).send("Wrong Password");
     }
 
     const authUser = { emailId: req.body.emailId };

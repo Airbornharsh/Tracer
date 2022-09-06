@@ -6,7 +6,8 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.sendStatus(401);
 
   jwt.verify(token, process.env.JWT_SECRET, (err, authUser) => {
-    if (err) return res.send("You Don't Have Access");
+    if (err) return res.status(400).send("You Don't Have Access");
+
 
     req.user = authUser;
     next();

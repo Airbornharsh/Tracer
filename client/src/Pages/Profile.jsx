@@ -134,7 +134,7 @@ const Profile = () => {
                     className="flex p-[0.4rem] relative bg-slate-400 text-white"
                   >
                     <p className="pl-1">{index + 1}.</p>
-                    <p className="pl-3">{expense.title}</p>
+                    <p className="pl-3 w-[5rem] overflow-hidden">{expense.title}</p>
                     <span className="absolute flex right-4">
                       <p>{date[0]}</p>
                       <p className="ml-1">{date[2]}</p>
@@ -152,7 +152,7 @@ const Profile = () => {
                     className="flex p-[0.4rem] relative bg-slate-100"
                   >
                     <p className="pl-1">{index + 1}.</p>
-                    <p className="pl-3">{expense.title}</p>
+                    <p className="pl-3 w-[8rem] overflow-hidden max500:w-[5rem]">{expense.title}</p>
                     <span className="absolute flex right-4">
                       <p>{date[0]}</p>
                       <p className="ml-1">{date[2]}</p>
@@ -170,10 +170,10 @@ const Profile = () => {
           <div>Nothing Found</div>
         )}
       </li>
-      <li className="p-3  pb-10 m-2 bg-white rounded-md shadow-lg h-80 w-[30rem] flex justify-center items-center mb-24 flex-col">
+      <li className="p-3 pb-10 m-2 bg-white rounded-md shadow-lg h-80 max-w-[24rem] w-[90vw]  flex justify-center items-center mb-24 flex-col">
         <h3 className="text-[1.2rem] inderFont">Weekly Expenses</h3>
         <div className="border-[2px] border-t-0 border-black h-[95%] w-[90%] flex justify-center items-center">
-          <ul className="flex flex-row-reverse h-[100%] items-end">
+          <ul className="flex flex-row-reverse h-[100%] items-end ">
             {weeklyDatas.map((data, index) => {
               const tempHeight = (13 * data.maxAmount) / highestWeeklyAmount;
 
@@ -190,17 +190,17 @@ const Profile = () => {
                 return (
                   <li
                     key={index}
-                    className="relative flex items-center justify-center w-6 mx-2"
+                    className="relative flex items-center justify-center w-5 mx-3 max500:mx-2 max400:mx-1"
                   >
-                    <div className={`w-6 h-[13rem] bg-slate-200`} />
+                    <div className={`w-5 h-[13rem] bg-slate-200`} />
                     <div
-                      className={`w-6 absolute bottom-0 right-0`}
+                      className={`w-5 absolute bottom-0 right-0`}
                       style={{
                         height: `${tempHeight}rem`,
                         backgroundColor: `${tempBgColor}`,
                       }}
                     />
-                    <p className="absolute bottom-[-1.6rem] inderFont">{data.week}</p>
+                    <p className="absolute bottom-[-1.6rem] text-[0.8rem] max500:bottom-[-1.3rem] inderFont">{data.week}</p>
                     <p className="absolute top-[-1.2rem] z-10 text-[0.8rem] inderFont">
                       {data.maxAmount}
                     </p>
@@ -210,9 +210,9 @@ const Profile = () => {
                 return (
                   <li
                     key={index}
-                    className="relative flex items-center justify-center w-6 mx-4"
+                    className="relative flex items-center justify-center w-5 mx-3 max500:mx-2 max400:mx-1"
                   >
-                    <div className={`w-6 h-[13rem] bg-slate-200`} />
+                    <div className={`w-5 h-[13rem] bg-slate-200`} />
                   </li>
                 );
               }

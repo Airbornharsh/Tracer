@@ -9,7 +9,8 @@ module.exports = {
         Color3: "#FCDA00",
       },
       screens: {
-        max500: {max:"500px"}
+        max500: {max:"500px"},
+        max400: {max:"400px"}
       }
     },
   },
