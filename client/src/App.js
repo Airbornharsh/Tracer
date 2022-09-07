@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Context from "./Context/Context";
 import NavBar from "./Layout/NavBar";
 import RoutesContainer from "./Routes";
@@ -13,11 +14,13 @@ function App() {
 
   // Ctx.setExpenseData(expenses);
 
-  // window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
-  window.localStorage.setItem(
-    "Tracer-Backend-URI",
-    "https://mtrace.herokuapp.com"
-  );
+  const Navigate = useRef(useNavigate());
+
+  window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
+  // window.localStorage.setItem(
+  //   "Tracer-Backend-URI",
+  //   "https://mtrace.herokuapp.com"
+  // );
 
   useEffect(() => {
     setLoader(true);
@@ -45,14 +48,16 @@ function App() {
               headers: {
                 authorization: `Bearer ${window.localStorage.getItem(
                   "TracerAccessToken"
-                )}`,
+                )}c`,
               },
             }
           );
           Ctx.current.setExpenseData(data.data);
           setLoader(false);
         } catch (e) {
-          console.log(e);
+          if (e.response.status === 401) {
+            Navigate.current("/user/login");
+          }
           setLoader(false);
         }
       };
