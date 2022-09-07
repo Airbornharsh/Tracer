@@ -48,7 +48,7 @@ function App() {
               headers: {
                 authorization: `Bearer ${window.localStorage.getItem(
                   "TracerAccessToken"
-                )}c`,
+                )}`,
               },
             }
           );
