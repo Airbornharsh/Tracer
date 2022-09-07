@@ -10,7 +10,7 @@ import Register from "./Pages/User/Register";
 
 const RoutesContainer = () => {
   return (
-    <Routes>
+    <Routes >
       <Route path="/" element={<Home />} />
       <Route path="/user/register" element={<Register />} />
       <Route path="/user/login" element={<Login />} />

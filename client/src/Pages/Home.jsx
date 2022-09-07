@@ -16,7 +16,7 @@ const Home = () => {
               return (
                 <li
                   key={data.id}
-                  className="bg-Color4 rounded-md mx-4 mb-7 p-4 pb-3 max500:mx-2 max500:mb-4 flex flex-col justify-center items-center cursor-pointer  max500:p-3 max500:pb-1 "
+                  className="bg-[] rounded-md mx-4 mb-7 p-4 pb-3 max500:mx-2 max500:mb-4 flex flex-col justify-center items-center cursor-pointer shadow-lg max500:p-3 max500:pb-1 backdrop-blur-3xl bg-slate-50"
                   onClick={() => {
                     Navigate(`/category/${data.id}`);
                   }}
@@ -24,7 +24,7 @@ const Home = () => {
                   <img
                     src={data.imgSrc}
                     alt={data.name}
-                    className="w-16 h-16 mx-3 max500:mx-2 max500:w-8 max500:h-8"
+                    className="w-12 h-12 mx-3 max500:mx-2 max500:w-8 max500:h-8"
                   />
                   <h4
                     className={`${data.id}TextColor mt-3 max500:mt-2 inderFont`}
