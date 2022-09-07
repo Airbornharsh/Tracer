@@ -125,12 +125,21 @@ const Category = () => {
           >
             {categoryData.name}
           </h3>
-          <button
-            className="right-1 top-1 flex justify-center items-center cursor-pointer bg-white p-2 py-1 rounded-lg text-center ml-5"
-            onClick={ToggleRemoving}
-          >
-            Remove
-          </button>
+          {isRemoving ? (
+            <button
+              className="right-1 top-1 flex justify-center items-center cursor-pointer p-2 py-1 rounded-lg text-center ml-5 text-white bg-red-600 "
+              onClick={ToggleRemoving}
+            >
+              Remove
+            </button>
+          ) : (
+            <button
+              className="right-1 top-1 flex justify-center items-center cursor-pointer bg-white p-2 py-1 rounded-lg text-center ml-5 hover:bg-red-600 "
+              onClick={ToggleRemoving}
+            >
+              Remove
+            </button>
+          )}
         </span>
       </div>
       <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-16 flex flex-wrap max500:justify-center">

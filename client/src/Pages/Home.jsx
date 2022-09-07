@@ -39,7 +39,7 @@ const Home = () => {
       ) : (
         <div className="flex items-center justify-center mt-20">
           <button
-            className="bg-Color3 rounded-md shadow-md w-[7.1rem] mx-5 py-2 flex text-white justify-center items-center"
+            className="bg-Color3 rounded-md shadow-md w-[7.1rem] mx-5 py-2 flex text-black justify-center items-center"
             onClick={() => {
               Navigate("/user/register");
             }}
@@ -47,7 +47,7 @@ const Home = () => {
             Register
           </button>
           <button
-            className="bg-Color3 rounded-md shadow-md w-[7.1rem] py-2 mx-5 text-white flex justify-center items-center"
+            className="bg-Color3 rounded-md shadow-md w-[7.1rem] py-2 mx-5 text-black flex justify-center items-center"
             onClick={() => {
               Navigate("/user/login");
             }}
