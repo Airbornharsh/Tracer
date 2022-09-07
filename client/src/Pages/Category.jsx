@@ -134,7 +134,7 @@ const Category = () => {
             </button>
           ) : (
             <button
-              className="right-1 top-1 flex justify-center items-center cursor-pointer bg-white p-2 py-1 rounded-lg text-center ml-5 hover:bg-red-600 "
+              className="right-1 top-1 flex justify-center items-center cursor-pointer bg-white p-2 py-1 rounded-lg text-center ml-5 hover:bg-red-600 hover:text-white"
               onClick={ToggleRemoving}
             >
               Remove
