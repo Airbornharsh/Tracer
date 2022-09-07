@@ -16,7 +16,7 @@ const Home = () => {
               return (
                 <li
                   key={data.id}
-                  className="bg-white rounded-md mx-4 mb-7 p-4 pb-3 max500:mx-2 max500:mb-4 flex flex-col justify-center items-center cursor-pointer shadow-[0_4px_10px_1px_rgba(0,0,0,0.3)] max500:p-3 max500:pb-1 "
+                  className="bg-Color4 rounded-md mx-4 mb-7 p-4 pb-3 max500:mx-2 max500:mb-4 flex flex-col justify-center items-center cursor-pointer  max500:p-3 max500:pb-1 "
                   onClick={() => {
                     Navigate(`/category/${data.id}`);
                   }}

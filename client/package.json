@@ -20,6 +20,9 @@
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.19"
   },
+  "devDependencies": {
+    "serve": "^14.0.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "dev": "react-scripts start",

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import axios from "axios";
+import axios from "axios";
 import CategoryRenderData from "../Utils/Data/CategoryRenderData";
 import Context from "../Context/Context";
 
 const Category = () => {
   const [expenses, setExpenses] = useState([]);
+  const [isRemoving, setIsRemoving] = useState(false);
   const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
   let categoryData;
@@ -62,6 +63,52 @@ const Category = () => {
     onLoad();
   }, [params.categoryid, Navigate]);
 
+  const ToggleRemoving = () => {
+    if (isRemoving) setIsRemoving(false);
+    else setIsRemoving(true);
+  };
+
+  const DeleteHandler = async (expense) => {
+    const tempExpenseData = [];
+    const tempCategoryExpenseData = [];
+    const expenseData = Ctx.current.expenseData;
+    try {
+      if (!Ctx.current.accessToken) {
+        UtilCtx.current.setLoader(false);
+        console.log("Nothing");
+      }
+
+      await axios.delete(
+        `${window.localStorage.getItem("Tracer-Backend-URI")}/expense/${
+          expense._id
+        }`,
+        {
+          headers: {
+            authorization: `Bearer ${window.localStorage.getItem(
+              "TracerAccessToken"
+            )}`,
+          },
+        }
+      );
+
+      // console.log(data);
+
+      expenses.forEach((data) => {
+        if (data._id !== expense._id) tempCategoryExpenseData.push(data);
+      });
+
+      setExpenses(tempCategoryExpenseData);
+
+      expenseData.forEach((data) => {
+        if (data._id !== expense._id) tempExpenseData.push(data);
+      });
+
+      Ctx.current.setExpenseData(tempExpenseData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="w-[85vw] max-w-[80rem] flex flex-col items-center ">
       <div className="flex items-start w-[85vw] max-w-[80rem]">
@@ -76,6 +123,12 @@ const Category = () => {
           >
             {categoryData.name}
           </h3>
+          <button
+            className="right-1 top-1 flex justify-center items-center cursor-s-resize bg-white p-2 py-1 rounded-lg text-center ml-5"
+            onClick={ToggleRemoving}
+          >
+            Remove
+          </button>
         </span>
       </div>
       <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-16 flex flex-wrap max500:justify-center">
@@ -85,7 +138,10 @@ const Category = () => {
           return (
             <li
               key={index}
-              className={`w-64 h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden`}
+              className={`w-64  h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden `}
+              onClick={() => {
+                if (isRemoving) DeleteHandler(expense);
+              }}
             >
               <span className="flex flex-col items-center mb-2 ml-4 max500:ml-1">
                 <p className="text-[2.3rem] max500:text-[1.4rem] h-11 max500:h-6">

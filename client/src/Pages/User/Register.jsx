@@ -16,6 +16,10 @@ const Register = () => {
 
   const Navigate = useNavigate();
 
+  const validateForm = () => {
+    return password === confirmPassword && emailId && name;
+  };
+
   const RegisterSubmit = async (e) => {
     e.preventDefault();
 
@@ -117,6 +121,7 @@ const Register = () => {
         <button
           className="bg-Color3 rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
           onClick={RegisterSubmit}
+          disabled={!validateForm()}
         >
           Register
         </button>

@@ -7,9 +7,10 @@ module.exports = {
         // Color1: "#FFE74C",
         // Color2: "#D9D9D9",
         // Color3: "#FCDA00",
-        Color1: "#FFE74C",
+        Color1: "#54e362",
         Color2: "#D9D9D9",
         Color3: "#FCDA00",
+        Color4: "#ffffff"
       },
       screens: {
         max500: { max: "500px" },

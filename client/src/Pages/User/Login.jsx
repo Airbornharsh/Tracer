@@ -8,6 +8,7 @@ const Login = () => {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
   const UtilCtx = useContext(Context).util;
+  const UserCtx = useContext(Context).user;
   const Ctx = useContext(Context);
 
   const Navigate = useNavigate();
@@ -26,12 +27,52 @@ const Login = () => {
         }
       );
       window.localStorage.setItem("TracerAccessToken", res.data.accessToken);
-      Ctx.setAccessToken(window.localStorage.getItem("TracerAccessToken"));
+      Ctx.setAccessToken(res.data.accessToken);
+      AppFunction(res.data.accessToken);
       UtilCtx.setLoader(false);
+      UserCtx.setIsLogged(true);
       Navigate("/");
     } catch (e) {
       console.log(e);
       UtilCtx.setLoader(false);
+    }
+  };
+
+  const AppFunction = async (token) => {
+    UtilCtx.setLoader(true);
+
+    if (token) {
+      UserCtx.setIsLogged(true);
+      const onLoad = async () => {
+        try {
+          const userData = await axios.get(
+            `${window.localStorage.getItem("Tracer-Backend-URI")}/userdata`,
+            {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          Ctx.setUserData(userData.data);
+
+          const data = await axios.get(
+            `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
+            {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          Ctx.setExpenseData(data.data);
+          UtilCtx.setLoader(false);
+        } catch (e) {
+          console.log(e);
+          UtilCtx.setLoader(false);
+        }
+      };
+
+      onLoad();
     }
   };
 

@@ -11,6 +11,7 @@ const authenticateToken = require("./middlewares/authenticateToken");
 const ChangePassword = require("./controllers/Auth/ChangePassword");
 const RegisterOtpVerify = require("./controllers/Auth/RegisterOtpVerify");
 const UserData = require("./controllers/Auth/UserData");
+const ExpenseDelete = require("./controllers/Expenses/ExpenseDelete");
 
 const Router = express.Router();
 
@@ -29,5 +30,6 @@ Router.get(
 );
 Router.get("/expense/:id", authenticateToken, ExpenseGet);
 Router.put("/expense/:id", authenticateToken, ExpensePut);
+Router.delete("/expense/:id", authenticateToken, ExpenseDelete);
 
 module.exports = Router;

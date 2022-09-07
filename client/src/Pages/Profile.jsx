@@ -24,8 +24,9 @@ ChartJs.register(
 );
 
 const Profile = () => {
-  const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
+  const UtilCtx = useRef(useContext(Context).util);
+  const UserCtx = useRef(useContext(Context).user);
   const [weeklyDatas, setWeeklyDatas] = useState([]);
   const [categoryDatas, setCategoryDatas] = useState([]);
 
@@ -123,6 +124,8 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    if (!UserCtx.current.isLogged) Navigate("/");
+
     const onLoad = async () => {
       UtilCtx.current.setLoader(true);
 
@@ -177,7 +180,7 @@ const Profile = () => {
 
   return (
     <ul className=" mt-8 w-[88vw] max-w-[83rem] flex flex-wrap max500:justify-center ">
-      <li className="p-3 m-2 bg-white rounded-md shadow-lg w-96 max-h-[7.5rem]">
+      <li className="p-3 m-2 bg-Color4 rounded-md shadow-lg w-96 max-h-[7.5rem]">
         <ul className="h-[100%] overflow-hidden">
           <li className="flex mb-2">
             <b>Name:</b>
@@ -193,7 +196,7 @@ const Profile = () => {
           </li>
         </ul>
       </li>
-      <li className="p-3 m-2 bg-white rounded-md shadow-lg h-80 w-96">
+      <li className="p-3 m-2 bg-Color4 rounded-md shadow-lg h-80 w-96">
         {Ctx.current.expenseData ? (
           <ul className="flex flex-col overflow-auto h-[18.5rem]">
             {Ctx.current.expenseData.map((expense, index) => {
@@ -246,7 +249,7 @@ const Profile = () => {
           <div>Nothing Found</div>
         )}
       </li>
-      <li className="p-3  m-2 bg-white rounded-md shadow-lg max-w-[20rem] w-[90vw]  flex justify-center items-center flex-col">
+      <li className="p-3  m-2 bg-Color4 rounded-md shadow-lg max-w-[20rem] w-[90vw]  flex justify-center items-center flex-col">
         <h3 className="text-[1.2rem] inderFont">Category</h3>
         <div className="max-w-[20rem] w-[90vw]">
           <Pie
@@ -277,7 +280,7 @@ const Profile = () => {
           />
         </div>
       </li>
-      <li className="p-3  m-2 bg-white rounded-md shadow-lg max-w-[20rem] w-[90vw]  flex justify-center items-center mb-24 flex-col max-h-[12rem]">
+      <li className="p-3  m-2 bg-Color4 rounded-md shadow-lg max-w-[20rem] w-[90vw]  flex justify-center items-center mb-24 flex-col max-h-[12rem]">
         <h3 className="text-[1.2rem] inderFont">Weekly Expenses</h3>
         <div className="max-w-[20rem] w-[90vw] px-3">
           <Bar
