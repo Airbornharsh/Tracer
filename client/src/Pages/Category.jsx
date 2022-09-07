@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { AiOutlineClose } from "react-icons/ai";
 import CategoryRenderData from "../Utils/Data/CategoryRenderData";
 import Context from "../Context/Context";
 
@@ -69,6 +70,7 @@ const Category = () => {
   };
 
   const DeleteHandler = async (expense) => {
+    console.log("Hii");
     const tempExpenseData = [];
     const tempCategoryExpenseData = [];
     const expenseData = Ctx.current.expenseData;
@@ -78,7 +80,7 @@ const Category = () => {
         console.log("Nothing");
       }
 
-      await axios.delete(
+      const data = await axios.delete(
         `${window.localStorage.getItem("Tracer-Backend-URI")}/expense/${
           expense._id
         }`,
@@ -91,7 +93,7 @@ const Category = () => {
         }
       );
 
-      // console.log(data);
+      console.log(data);
 
       expenses.forEach((data) => {
         if (data._id !== expense._id) tempCategoryExpenseData.push(data);
@@ -124,7 +126,7 @@ const Category = () => {
             {categoryData.name}
           </h3>
           <button
-            className="right-1 top-1 flex justify-center items-center cursor-s-resize bg-white p-2 py-1 rounded-lg text-center ml-5"
+            className="right-1 top-1 flex justify-center items-center cursor-pointer bg-white p-2 py-1 rounded-lg text-center ml-5"
             onClick={ToggleRemoving}
           >
             Remove
@@ -138,10 +140,7 @@ const Category = () => {
           return (
             <li
               key={index}
-              className={`w-64  h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden `}
-              onClick={() => {
-                if (isRemoving) DeleteHandler(expense);
-              }}
+              className={`w-64  h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden relative`}
             >
               <span className="flex flex-col items-center mb-2 ml-4 max500:ml-1">
                 <p className="text-[2.3rem] max500:text-[1.4rem] h-11 max500:h-6">
@@ -158,6 +157,18 @@ const Category = () => {
                   Rs {expense.amount}
                 </p>
               </span>
+              {isRemoving && (
+                <AiOutlineClose
+                  className="absolute right-1 top-1 cursor-pointer"
+                  size="1rem"
+                  onClick={() => {
+                    const result = window.confirm("Want to delete?");
+                    if (result) {
+                      DeleteHandler(expense);
+                    }
+                  }}
+                />
+              )}
             </li>
           );
         })}
