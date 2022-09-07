@@ -248,18 +248,6 @@ const Profile = () => {
       </li>
       <li className="p-3  m-2 bg-white rounded-md shadow-lg max-w-[20rem] w-[90vw]  flex justify-center items-center flex-col">
         <h3 className="text-[1.2rem] inderFont">Category</h3>
-        {/* <PieChart
-          className="py-5"
-          data={[
-            { title: "Food", value: 10, color: "#ff5964" },
-            { title: "Travel", value: 15, color: "#38618c" },
-            { title: "Drink", value: 20, color: "#35a7ff" },
-            { title: "Bill", value: 20, color: "#c81b25" },
-            { title: "Study", value: 20, color: "#3bbc26" },
-            { title: "Cloth", value: 20, color: "#26bc98" },
-          ]}
-          lineWidth="30"
-        /> */}
         <div className="max-w-[20rem] w-[90vw]">
           <Pie
             data={{

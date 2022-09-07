@@ -1,0 +1,17 @@
+{
+  "name": "Mtrace",
+  "short_name": "Mtrace",
+  "theme_color": "#000000",
+  "background_color": "#FFE74C",
+  "display": "standalone",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "./favicon.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}
