@@ -4,14 +4,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Color1: "#FFE74C",
+        // Color2: "#D9D9D9",
+        // Color3: "#FCDA00",
         Color1: "#FFE74C",
         Color2: "#D9D9D9",
         Color3: "#FCDA00",
       },
       screens: {
-        max500: {max:"500px"},
-        max400: {max:"400px"}
-      }
+        max500: { max: "500px" },
+        max400: { max: "400px" },
+      },
     },
   },
   plugins: [],
