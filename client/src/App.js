@@ -16,11 +16,11 @@ function App() {
 
   const Navigate = useRef(useNavigate());
 
-  window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
-  // window.localStorage.setItem(
-  //   "Tracer-Backend-URI",
-  //   "https://mtrace.herokuapp.com"
-  // );
+  // window.localStorage.setItem("Tracer-Backend-URI", "http://localhost:4000");
+  window.localStorage.setItem(
+    "Tracer-Backend-URI",
+    "https://mtrace.herokuapp.com"
+  );
 
   useEffect(() => {
     setLoader(true);
@@ -73,7 +73,7 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen min-w-screen bg-slate-200">
       {loader ? (
-        <div className=" wrapper gooey ">
+        <div className=" wrapper gooey">
           <span className="dot"></span>
           <div className="dots">
             <span></span>
@@ -93,7 +93,7 @@ function App() {
             <span className=" absolute right-[10vw] bottom-[20vh] shadow-[0_0px_200px_90px_rgba(0,0,0,0.3)] contrast-[0.75] shadow-lime-500 -z-10" /> */}
             {/* <span className=" absolute right-[10vw] bottom-[20vh] shadow-[0_0px_200px_90px_rgba(0,0,0,0.3)] contrast-[0.75] shadow-lime-500 -z-10" /> */}
           </div>
-          {/* <div className="absolute left-0 top-0 z-10 bg-lime-900 min-h-screen min-w-screen "></div> */}
+          {/* <div className="absolute top-0 left-0 z-10 min-h-screen bg-lime-900 min-w-screen "></div> */}
         </div>
       )}
     </div>
