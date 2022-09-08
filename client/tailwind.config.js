@@ -14,6 +14,7 @@ module.exports = {
         Color5: "rgba(255, 231, 76,0.6)"
       },
       screens: {
+        max550: { max: "550px" },
         max500: { max: "500px" },
         max400: { max: "400px" },
       },

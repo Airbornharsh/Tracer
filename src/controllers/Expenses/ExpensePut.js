@@ -9,9 +9,6 @@ const ExpensePut = async (req, res) => {
     if (req.body.title) {
       await expenses.findByIdAndUpdate(req.params.id, {
         title: req.body.title,
-      });
-    } else if (req.body.amount) {
-      await expenses.findByIdAndUpdate(req.params.id, {
         amount: req.body.amount,
       });
     }

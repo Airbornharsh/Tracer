@@ -17,7 +17,6 @@ const AddExpense = () => {
     UtilCtx.setLoader(true);
 
     try {
-      console.log("started");
       const data = await axios.post(
         `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
         {

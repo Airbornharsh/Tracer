@@ -2,12 +2,20 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineClose } from "react-icons/ai";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ImArrowUpRight2 } from "react-icons/im";
 import CategoryRenderData from "../Utils/Data/CategoryRenderData";
 import Context from "../Context/Context";
 
 const Category = () => {
   const [expenses, setExpenses] = useState([]);
   const [isRemoving, setIsRemoving] = useState(false);
+  const [isEditing, setIsEditing] = useState();
+  const [isAdding, setIsAdding] = useState();
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [editingExpenseId, SetEditingExpenseId] = useState("");
   const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
   const ExpenseCtx = useContext(Context);
@@ -23,26 +31,6 @@ const Category = () => {
   useEffect(() => {
     const onLoad = async () => {
       UtilCtx.current.setLoader(true);
-
-      // try {
-      //   if (!Ctx.current.accessToken) {
-      //     UtilCtx.current.setLoader(false);
-      //     console.log("Nothing");
-      //   }
-
-      //   const data = await axios.get(
-      //     `${window.localStorage.getItem(
-      //       "Tracer-Backend-URI"
-      //     )}/expenses/category/${params.categoryid}`,
-      //     {
-      //       headers: {
-      //         authorization: `Bearer ${window.localStorage.getItem(
-      //           "TracerAccessToken"
-      //         )}`,
-      //       },
-      //     }
-      //   );
-      //   setExpenses(data.data);
       if (Ctx.current.expenseData) {
         const tempData = [];
 
@@ -56,18 +44,121 @@ const Category = () => {
         UtilCtx.current.setLoader(false);
       } else Navigate.current("/");
       UtilCtx.current.setLoader(false);
-      // } catch (e) {
-      //   console.log(e);
-      //   UtilCtx.current.setLoader(false);
-      // }
     };
 
     onLoad();
   }, [params.categoryid]);
 
   const ToggleRemoving = () => {
-    if (isRemoving) setIsRemoving(false);
-    else setIsRemoving(true);
+    if (isRemoving) {
+      setIsRemoving(false);
+    } else {
+      setIsAdding(false);
+      setIsEditing(false);
+      setIsRemoving(true);
+    }
+  };
+
+  const ToggleEditing = () => {
+    if (isEditing) {
+      setIsAdding(false);
+      setIsEditing(false);
+    } else {
+      setIsRemoving(false);
+      setIsEditing(true);
+      setIsAdding(false);
+    }
+  };
+
+  const EnablingAdding = (data) => {
+    if (isAdding) {
+      setIsAdding(false);
+      setIsEditing(false);
+    } else {
+      setIsAdding(true);
+      setIsRemoving(false);
+      setIsEditing(false);
+    }
+  };
+
+  const AddingExpense = async (e) => {
+    e.preventDefault();
+
+    if (isEditing) {
+      try {
+        const tempCategoryExpenseData = [];
+        const tempExpenseData = [];
+
+        expenses.forEach((data) => {
+          if (data._id !== editingExpenseId) tempCategoryExpenseData.push(data);
+          else {
+            const tempData = { ...data };
+            tempData.title = title;
+            tempData.amount = amount;
+            tempCategoryExpenseData.push(tempData);
+          }
+        });
+
+        setExpenses(tempCategoryExpenseData);
+
+        ExpenseCtx.expenseData.forEach((data) => {
+          if (data._id !== editingExpenseId) tempExpenseData.push(data);
+          else {
+            const tempData = { ...data };
+            tempData.title = title;
+            tempData.amount = amount;
+            tempExpenseData.push(tempData);
+          }
+        });
+
+        ExpenseCtx.setExpenseData(tempExpenseData);
+
+        await axios.put(
+          `${window.localStorage.getItem(
+            "Tracer-Backend-URI"
+          )}/expense/${editingExpenseId}`,
+          {
+            title,
+            amount,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${window.localStorage.getItem(
+                "TracerAccessToken"
+              )}`,
+            },
+          }
+        );
+        setTitle("");
+        setAmount("");
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (isAdding) {
+      try {
+        const data = await axios.post(
+          `${window.localStorage.getItem("Tracer-Backend-URI")}/expenses`,
+          {
+            title,
+            amount,
+            category: params.categoryid,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${window.localStorage.getItem(
+                "TracerAccessToken"
+              )}`,
+            },
+          }
+        );
+        ExpenseCtx.setExpenseData([...ExpenseCtx.expenseData, data.data]);
+        setExpenses([...expenses, data.data]);
+        setTitle("");
+        setAmount("");
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   const DeleteHandler = async (expense) => {
@@ -110,37 +201,111 @@ const Category = () => {
   };
 
   return (
-    <div className="w-[85vw] max-w-[80rem] flex flex-col items-center ">
-      <div className="flex items-start w-[85vw] max-w-[80rem]">
+    <div className="w-[85vw] max-w-[80rem] flex flex-col justify-start">
+      <div className="flex items-start w-[85vw] max-w-[80rem] max500:flex-col">
         <span className="flex items-end">
           <img
-            className="h-11 w-11 aspect-square"
+            className="h-10 aspect-square"
             src={categoryData.imgSrc}
             alt={categoryData.name}
           />
           <h3
-            className={`inderFont text-[1.8rem] h-10 pl-4 ${categoryData.id}TextColor`}
+            className={`inderFont text-[1.2rem] h-8 pl-4 max500:pl-2 ${categoryData.id}TextColor`}
           >
             {categoryData.name}
           </h3>
+        </span>
+        <span className="flex max500:mt-2">
           {isRemoving ? (
             <button
-              className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white bg-red-600 rounded-lg cursor-pointer right-1 top-1 "
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white transition-none rounded-lg cursor-pointer bg-slate-50 right-1 top-1 max500:ml-1"
               onClick={ToggleRemoving}
             >
-              Remove
+              <MdDelete
+                size={"1.7rem"}
+                className="transition-none"
+                color="red"
+              />
             </button>
           ) : (
             <button
-              className="flex items-center justify-center p-2 py-1 ml-5 text-center bg-white rounded-lg cursor-pointer right-1 top-1 hover:bg-red-600 hover:text-white"
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center transition-none rounded-lg cursor-pointer max500:ml-1 bg-slate-50 right-1 top-1 hover:text-red-600"
               onClick={ToggleRemoving}
             >
-              Remove
+              <MdDelete size={"1.7rem"} className="transition-none" />
+            </button>
+          )}
+          {isEditing ? (
+            <button
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white transition-none rounded-lg cursor-pointer bg-slate-50 right-1 top-1 max500:ml-2"
+              onClick={ToggleEditing}
+            >
+              <MdEdit size={"1.7rem"} className="transition-none" color="red" />
+            </button>
+          ) : (
+            <button
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center transition-none rounded-lg cursor-pointer bg-slate-50 right-1 top-1 hover:text-red-600 max500:ml-2"
+              onClick={ToggleEditing}
+            >
+              <MdEdit size={"1.7rem"} className="transition-none" />
+            </button>
+          )}
+          {isAdding ? (
+            <button
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white transition-none rounded-lg cursor-pointer bg-slate-50 right-1 top-1 max500:ml-2"
+              onClick={EnablingAdding}
+            >
+              <AiOutlineClose
+                size={"1.7rem"}
+                className="transition-none"
+                color="black"
+              />
+            </button>
+          ) : (
+            <button
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white transition-none rounded-lg cursor-pointer bg-slate-50 right-1 top-1 max500:ml-2"
+              onClick={EnablingAdding}
+            >
+              <AiOutlinePlus
+                size={"1.7rem"}
+                className="transition-none"
+                color="black"
+              />
             </button>
           )}
         </span>
       </div>
-      <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-16 flex flex-wrap max500:justify-center">
+      {isAdding && (
+        <form className="flex p-2 mt-6 rounded bg-slate-50 w-[85vw] max550:flex-col max-w-[29.7rem]">
+          <input
+            type="text"
+            className="max-w-[15rem] w-[80vw] h-10 bg-Color2 p-1 px-2 max550:max-w-[100%] "
+            placeholder="Your Title Here ..."
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
+          <div className="flex ml-2 max550:mt-2 max550:ml-0 max550:max-w-[100%]">
+            <input
+              type="Number"
+              className="max-w-[10rem]  w-[80vw] h-10 bg-Color2 p-1 px-2 max550:max-w-[86.6%]"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => {
+                setAmount(e.target.value);
+              }}
+            />
+            <button
+              className={`${categoryData.id}BgColor text-white flex justify-center items-center ml-2 px-2`}
+              onClick={AddingExpense}
+            >
+              <ImArrowUpRight2 size={"1.4rem"} />
+            </button>
+          </div>
+        </form>
+      )}
+      <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-10 flex flex-wrap max500:justify-center">
         {expenses.map((expense, index) => {
           const date = new Date(expense.time).toString().split(" ");
 
@@ -172,6 +337,21 @@ const Category = () => {
                     const result = window.confirm("Want to delete?");
                     if (result) {
                       DeleteHandler(expense);
+                    }
+                  }}
+                />
+              )}
+              {isEditing && (
+                <MdEdit
+                  className="absolute cursor-pointer right-1 top-1"
+                  size="1rem"
+                  onClick={() => {
+                    const result = window.confirm("Want to Edit?");
+                    if (result) {
+                      setTitle(expense.title);
+                      setAmount(expense.amount);
+                      SetEditingExpenseId(expense._id);
+                      setIsAdding(true);
                     }
                   }}
                 />
