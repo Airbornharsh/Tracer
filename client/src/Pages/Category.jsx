@@ -131,6 +131,7 @@ const Category = () => {
         );
         setTitle("");
         setAmount("");
+        setIsAdding(false);
       } catch (e) {
         console.log(e);
       }
