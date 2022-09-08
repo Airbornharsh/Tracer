@@ -10,10 +10,11 @@ const Category = () => {
   const [isRemoving, setIsRemoving] = useState(false);
   const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
+  const ExpenseCtx = useContext(Context);
   let categoryData;
 
   const params = useParams();
-  const Navigate = useNavigate();
+  const Navigate = useRef(useNavigate());
 
   CategoryRenderData.forEach((data) => {
     if (data.id === params.categoryid) categoryData = data;
@@ -53,7 +54,7 @@ const Category = () => {
 
         setExpenses(tempData);
         UtilCtx.current.setLoader(false);
-      } else Navigate("/");
+      } else Navigate.current("/");
       UtilCtx.current.setLoader(false);
       // } catch (e) {
       //   console.log(e);
@@ -62,7 +63,7 @@ const Category = () => {
     };
 
     onLoad();
-  }, [params.categoryid, Navigate]);
+  }, [params.categoryid]);
 
   const ToggleRemoving = () => {
     if (isRemoving) setIsRemoving(false);
@@ -70,17 +71,28 @@ const Category = () => {
   };
 
   const DeleteHandler = async (expense) => {
-    console.log("Hii");
     const tempExpenseData = [];
     const tempCategoryExpenseData = [];
-    const expenseData = Ctx.current.expenseData;
+
+    expenses.forEach((data) => {
+      if (data._id !== expense._id) tempCategoryExpenseData.push(data);
+    });
+
+    setExpenses(tempCategoryExpenseData);
+
+    ExpenseCtx.expenseData.forEach((data) => {
+      if (data._id !== expense._id) tempExpenseData.push(data);
+    });
+
+    ExpenseCtx.setExpenseData(tempExpenseData);
+
     try {
       if (!Ctx.current.accessToken) {
         UtilCtx.current.setLoader(false);
         console.log("Nothing");
       }
 
-      const data = await axios.delete(
+      await axios.delete(
         `${window.localStorage.getItem("Tracer-Backend-URI")}/expense/${
           expense._id
         }`,
@@ -92,20 +104,6 @@ const Category = () => {
           },
         }
       );
-
-      console.log(data);
-
-      expenses.forEach((data) => {
-        if (data._id !== expense._id) tempCategoryExpenseData.push(data);
-      });
-
-      setExpenses(tempCategoryExpenseData);
-
-      expenseData.forEach((data) => {
-        if (data._id !== expense._id) tempExpenseData.push(data);
-      });
-
-      Ctx.current.setExpenseData(tempExpenseData);
     } catch (e) {
       console.log(e);
     }
@@ -127,14 +125,14 @@ const Category = () => {
           </h3>
           {isRemoving ? (
             <button
-              className="right-1 top-1 flex justify-center items-center cursor-pointer p-2 py-1 rounded-lg text-center ml-5 text-white bg-red-600 "
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white bg-red-600 rounded-lg cursor-pointer right-1 top-1 "
               onClick={ToggleRemoving}
             >
               Remove
             </button>
           ) : (
             <button
-              className="right-1 top-1 flex justify-center items-center cursor-pointer bg-white p-2 py-1 rounded-lg text-center ml-5 hover:bg-red-600 hover:text-white"
+              className="flex items-center justify-center p-2 py-1 ml-5 text-center bg-white rounded-lg cursor-pointer right-1 top-1 hover:bg-red-600 hover:text-white"
               onClick={ToggleRemoving}
             >
               Remove
@@ -168,7 +166,7 @@ const Category = () => {
               </span>
               {isRemoving && (
                 <AiOutlineClose
-                  className="absolute right-1 top-1 cursor-pointer"
+                  className="absolute cursor-pointer right-1 top-1"
                   size="1rem"
                   onClick={() => {
                     const result = window.confirm("Want to delete?");

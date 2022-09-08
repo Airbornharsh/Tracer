@@ -34,7 +34,6 @@ const AddExpense = () => {
         }
       );
 
-      console.log(data);
       Ctx.setExpenseData([...Ctx.expenseData, data.data]);
       UtilCtx.setLoader(false);
       Navigate("/");
