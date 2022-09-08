@@ -1,12 +1,33 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJs,
+  Tooltip,
+  Title,
+  ArcElement,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImArrowUpRight2 } from "react-icons/im";
 import CategoryRenderData from "../Utils/Data/CategoryRenderData";
 import Context from "../Context/Context";
+
+ChartJs.register(
+  Tooltip,
+  Title,
+  ArcElement,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
 
 const Category = () => {
   const [expenses, setExpenses] = useState([]);
@@ -16,6 +37,7 @@ const Category = () => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [editingExpenseId, SetEditingExpenseId] = useState("");
+  const [weeklyDatas, setWeeklyDatas] = useState([]);
   const UtilCtx = useRef(useContext(Context).util);
   const Ctx = useRef(useContext(Context));
   const ExpenseCtx = useContext(Context);
@@ -36,7 +58,6 @@ const Category = () => {
 
         Ctx.current.expenseData.map((Data) => {
           if (Data.category === params.categoryid) tempData.push(Data);
-
           return Data;
         });
 
@@ -46,7 +67,68 @@ const Category = () => {
       UtilCtx.current.setLoader(false);
     };
 
+    const PieChart = (datas) => {
+      const thisMonth = new Date(Date.now()).toString().split(" ")[1];
+
+      const day0 = { maxAmount: 0 };
+      const day1 = { maxAmount: 0 };
+      const day2 = { maxAmount: 0 };
+      const day3 = { maxAmount: 0 };
+      const day4 = { maxAmount: 0 };
+      const day5 = { maxAmount: 0 };
+      const day6 = { maxAmount: 0 };
+
+      datas.map((data) => {
+        if (new Date(data.time).toString().split(" ")[1] === thisMonth) {
+          switch (new Date(data.time).toString().split(" ")[0]) {
+            case "Mon":
+              day0.maxAmount += data.amount;
+              console.log(day0);
+              break;
+
+            case "Tue":
+              day1.maxAmount += data.amount;
+              break;
+
+            case "Wed":
+              day2.maxAmount += data.amount;
+              break;
+
+            case "Thu":
+              day3.maxAmount += data.amount;
+              break;
+
+            case "Fri":
+              day4.maxAmount += data.amount;
+              break;
+
+            case "Sat":
+              day5.maxAmount += data.amount;
+              break;
+
+            case "Sun":
+              day6.maxAmount += data.amount;
+              break;
+            default:
+          }
+        }
+
+        return data;
+      });
+
+      setWeeklyDatas([
+        day0.maxAmount,
+        day1.maxAmount,
+        day2.maxAmount,
+        day3.maxAmount,
+        day4.maxAmount,
+        day5.maxAmount,
+        day6.maxAmount,
+      ]);
+    };
+
     onLoad();
+    PieChart(Ctx.current.expenseData);
   }, [params.categoryid]);
 
   const ToggleRemoving = () => {
@@ -162,18 +244,29 @@ const Category = () => {
     }
   };
 
-  const DeleteHandler = async (expense) => {
+  const DeleteHandler = async (e) => {
+    let id;
+
+    if (!e._id) {
+      e.preventDefault();
+      id = e.dataTransfer.getData("expenseId");
+    } else {
+      id = e._id;
+    }
+
+    if (!id) return;
+
     const tempExpenseData = [];
     const tempCategoryExpenseData = [];
 
     expenses.forEach((data) => {
-      if (data._id !== expense._id) tempCategoryExpenseData.push(data);
+      if (data._id !== id) tempCategoryExpenseData.push(data);
     });
 
     setExpenses(tempCategoryExpenseData);
 
     ExpenseCtx.expenseData.forEach((data) => {
-      if (data._id !== expense._id) tempExpenseData.push(data);
+      if (data._id !== id) tempExpenseData.push(data);
     });
 
     ExpenseCtx.setExpenseData(tempExpenseData);
@@ -185,9 +278,7 @@ const Category = () => {
       }
 
       await axios.delete(
-        `${window.localStorage.getItem("Tracer-Backend-URI")}/expense/${
-          expense._id
-        }`,
+        `${window.localStorage.getItem("Tracer-Backend-URI")}/expense/${id}`,
         {
           headers: {
             authorization: `Bearer ${window.localStorage.getItem(
@@ -196,6 +287,8 @@ const Category = () => {
           },
         }
       );
+      setTitle("");
+      setAmount("");
     } catch (e) {
       console.log(e);
     }
@@ -221,6 +314,11 @@ const Category = () => {
             <button
               className="flex items-center justify-center p-2 py-1 ml-5 text-center text-white transition-none rounded-lg cursor-pointer bg-slate-50 right-1 top-1 max500:ml-1"
               onClick={ToggleRemoving}
+              onDrop={DeleteHandler}
+              onDragOver={(e) => {
+                console.log("Started");
+                e.preventDefault();
+              }}
             >
               <MdDelete
                 size={"1.7rem"}
@@ -232,6 +330,11 @@ const Category = () => {
             <button
               className="flex items-center justify-center p-2 py-1 ml-5 text-center transition-none rounded-lg cursor-pointer max500:ml-1 bg-slate-50 right-1 top-1 hover:text-red-600"
               onClick={ToggleRemoving}
+              onDrop={DeleteHandler}
+              onDragOver={(e) => {
+                console.log("Started");
+                e.preventDefault();
+              }}
             >
               <MdDelete size={"1.7rem"} className="transition-none" />
             </button>
@@ -280,7 +383,7 @@ const Category = () => {
         <form className="flex p-2 mt-6 rounded bg-slate-50 w-[85vw] max550:flex-col max-w-[29.7rem]">
           <input
             type="text"
-            className="max-w-[15rem] w-[80vw] h-10 bg-Color2 p-1 px-2 max550:max-w-[100%] "
+            className="max-w-[15rem] w-[80vw] h-10 bg-slate-200 p-1 px-2 max550:max-w-[100%] "
             placeholder="Your Title Here ..."
             value={title}
             onChange={(e) => {
@@ -290,7 +393,7 @@ const Category = () => {
           <div className="flex ml-2 max550:mt-2 max550:ml-0 max550:max-w-[100%]">
             <input
               type="Number"
-              className="max-w-[10rem]  w-[80vw] h-10 bg-Color2 p-1 px-2 max550:max-w-[86.6%]"
+              className="max-w-[10rem]  w-[80vw] h-10 bg-slate-200 p-1 px-2 max550:max-w-[86.6%]"
               placeholder="Amount"
               value={amount}
               onChange={(e) => {
@@ -306,7 +409,7 @@ const Category = () => {
           </div>
         </form>
       )}
-      <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-10 flex flex-wrap max500:justify-center">
+      {/* <ul className="w-[85vw] max500:w-[95vw] max-w-[75rem] mt-10 flex flex-wrap max500:justify-center">
         {expenses.map((expense, index) => {
           const date = new Date(expense.time).toString().split(" ");
 
@@ -314,6 +417,10 @@ const Category = () => {
             <li
               key={index}
               className={`w-64  h-28 ${categoryData.id}BgColor text-white flex inderFont items-center mb-7 mr-8 max500:mb-3 max500:mr-2 max500:w-28 max500:h-[3.5rem] overflow-hidden relative`}
+              draggable={true}
+              onDragStart={(e) => {
+                e.dataTransfer.setData("expenseId", expense._id);
+              }}
             >
               <span className="flex flex-col items-center mb-2 ml-4 max500:ml-1">
                 <p className="text-[2.3rem] max500:text-[1.4rem] h-11 max500:h-6">
@@ -335,10 +442,7 @@ const Category = () => {
                   className="absolute cursor-pointer right-1 top-1"
                   size="1rem"
                   onClick={() => {
-                    const result = window.confirm("Want to delete?");
-                    if (result) {
-                      DeleteHandler(expense);
-                    }
+                    DeleteHandler(expense);
                   }}
                 />
               )}
@@ -360,7 +464,141 @@ const Category = () => {
             </li>
           );
         })}
-      </ul>
+      </ul> */}
+      <div className="flex w-[80vw] justify-between max800:flex-col">
+        <ul className="flex flex-col  mb-9 h-[55vh] max-h-[20rem] max-w-[30rem] w-[90vw] mt-6 overflow-scroll">
+          {expenses.map((expense, index) => {
+            const date = new Date(expense.time).toString().split(" ");
+
+            if (index % 2 === 1) {
+              return (
+                <li
+                  key={index + 1}
+                  className="flex p-[0.4rem] max500:px-[0.2rem] relative bg-slate-400 text-white rounded max500:text-[0.8rem] "
+                >
+                  <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
+                    {expense.title}
+                  </p>
+                  <span className="absolute flex right-9 max500:right-7">
+                    <p className="ml-1">{date[2]}</p>
+                    <p className="ml-1 ">{date[1]}</p>
+                    <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4  text-right overflow-hidden h-7">
+                      ₹{expense.amount}
+                    </p>
+                  </span>
+                  {isRemoving && (
+                    <AiOutlineClose
+                      className="absolute cursor-pointer right-1 top-1"
+                      size="1rem"
+                      onClick={() => {
+                        DeleteHandler(expense);
+                      }}
+                    />
+                  )}
+                  {isEditing && (
+                    <MdEdit
+                      className="absolute cursor-pointer right-1 top-1"
+                      size="1rem"
+                      onClick={() => {
+                        const result = window.confirm("Want to Edit?");
+                        if (result) {
+                          setTitle(expense.title);
+                          setAmount(expense.amount);
+                          SetEditingExpenseId(expense._id);
+                          setIsAdding(true);
+                        }
+                      }}
+                    />
+                  )}
+                </li>
+              );
+            } else {
+              return (
+                <li
+                  key={index + 1}
+                  className="flex p-[0.4rem] max500:px-[0.2rem] relative text-black bg-slate-100 rounded max500:text-[0.8rem] "
+                >
+                  <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
+                    {expense.title}
+                  </p>
+                  <span className="absolute flex right-9 max500:right-7">
+                    <p className="ml-1">{date[2]}</p>
+                    <p className="ml-1 ">{date[1]}</p>
+                    <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4 text-right overflow-hidden h-7">
+                      ₹{expense.amount}
+                    </p>
+                  </span>
+                  {isRemoving && (
+                    <AiOutlineClose
+                      className="absolute cursor-pointer right-1 top-1"
+                      size="1rem"
+                      onClick={() => {
+                        DeleteHandler(expense);
+                      }}
+                    />
+                  )}
+                  {isEditing && (
+                    <MdEdit
+                      className="absolute cursor-pointer right-1 top-1"
+                      size="1rem"
+                      onClick={() => {
+                        const result = window.confirm("Want to Edit?");
+                        if (result) {
+                          setTitle(expense.title);
+                          setAmount(expense.amount);
+                          SetEditingExpenseId(expense._id);
+                          setIsAdding(true);
+                        }
+                      }}
+                    />
+                  )}
+                </li>
+              );
+            }
+          })}
+        </ul>
+        <div className="p-3  m-2 bg-Color4 rounded-md shadow-lg max-w-[30rem] w-[35vw]  flex justify-center items-center flex-col max800:w-[80vw]">
+          <h3 className="text-[1.2rem] inderFont">Category</h3>
+          <div className="max-w-[30rem] w-[33vw] max800:w-[80vw]">
+            <Pie
+              data={{
+                labels: [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday",
+                ],
+                datasets: [
+                  {
+                    data: weeklyDatas,
+                    backgroundColor: [
+                      "#ff5964",
+                      "#38618c",
+                      "#35a7ff",
+                      "#c81b25",
+                      "#3bbc26",
+                      "#26bc98",
+                      "#fad30f",
+                    ],
+                    hoverBackgroundColor: [
+                      "#ff5964",
+                      "#38618c",
+                      "#35a7ff",
+                      "#c81b25",
+                      "#3bbc26",
+                      "#26bc98",
+                      "#fad30f",
+                    ],
+                  },
+                ],
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
