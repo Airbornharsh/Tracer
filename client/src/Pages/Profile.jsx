@@ -196,76 +196,33 @@ const Profile = () => {
           </li>
         </ul>
       </li>
-      <li className="m-2 rounded-md shadow-lg h-[19.5rem] p-2 bg-Color4 w-96">
+      <li className="m-2 rounded-md shadow-lg h-[23rem] p-2 bg-Color4 w-96">
         {Ctx.current.expenseData ? (
-          <ul className="flex flex-col overflow-auto h-[18.5rem]">
+          <ul className="flex flex-col overflow-auto h-[22rem]">
             {Ctx.current.expenseData.map((expense, index) => {
               const date = new Date(expense.time).toString().split(" ");
-
-              let Style;
-
-              if (index % 2 === 0) Style = "profileListLight";
-              else Style = "profileListDark";
 
               return (
                 <li
                   key={index + 1}
-                  className={`flex p-[0.4rem] relative bg-slate-400 rounded text-white ${Style}`}
+                  className={`flex p-[0.4rem] max500:px-[0.2rem] relative  rounded-sm max500:text-[0.8rem] bg-slate-100 border-y-2 border-b-slate-800 border-t-0`}
+                  draggable={true}
+                  onDragStart={(e) => {
+                    e.dataTransfer.setData("expenseId", expense._id);
+                  }}
                 >
-                  <p className="pl-1">{index + 1}.</p>
-                  <p className="pl-3 w-[5rem] h-[1.7rem] overflow-hidden ">
+                  <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
                     {expense.title}
                   </p>
-                  <span className="absolute flex right-4">
-                    <p>{date[0]}</p>
+                  <span className="absolute flex right-2">
                     <p className="ml-1">{date[2]}</p>
-                    <p className="ml-1">{date[1]}</p>
-                    <p className="w-[4.3rem] text-right">Rs {expense.amount}</p>
+                    <p className="ml-1 ">{date[1]}</p>
+                    <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4  text-right overflow-hidden h-7">
+                      ₹{expense.amount}
+                    </p>
                   </span>
                 </li>
               );
-
-              // if (index % 2 === 1) {
-              //   return (
-              //     <li
-              //       key={index + 1}
-              //       className="flex p-[0.4rem] relative bg-slate-400 rounded text-white"
-              //     >
-              //       <p className="pl-1">{index + 1}.</p>
-              //       <p className="pl-3 w-[5rem] h-[1.7rem] overflow-hidden ">
-              //         {expense.title}
-              //       </p>
-              //       <span className="absolute flex right-4">
-              //         <p>{date[0]}</p>
-              //         <p className="ml-1">{date[2]}</p>
-              //         <p className="ml-1">{date[1]}</p>
-              //         <p className="w-[4.3rem] text-right">
-              //           Rs {expense.amount}
-              //         </p>
-              //       </span>
-              //     </li>
-              //   );
-              // } else {
-              //   return (
-              //     <li
-              //       key={index + 1}
-              //       className="flex p-[0.4rem] relative bg-slate-100 rounded"
-              //     >
-              //       <p className="pl-1">{index + 1}.</p>
-              //       <p className="pl-3 w-[8rem] h-[1.7rem] overflow-hidden max500:w-[5rem]">
-              //         {expense.title}
-              //       </p>
-              //       <span className="absolute flex right-4">
-              //         <p>{date[0]}</p>
-              //         <p className="ml-1">{date[2]}</p>
-              //         <p className="ml-1">{date[1]}</p>
-              //         <p className="w-[4.3rem] text-right">
-              //           Rs {expense.amount}
-              //         </p>
-              //       </span>
-              //     </li>
-              //   );
-              // }
             })}
           </ul>
         ) : (

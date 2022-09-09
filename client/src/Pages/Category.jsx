@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Pie } from "react-chartjs-2";
+import {  Bar } from "react-chartjs-2";
 import {
   Chart as ChartJs,
   Tooltip,
@@ -467,20 +467,15 @@ const Category = () => {
           );
         })}
       </ul> */}
-      <div className="flex w-[80vw] justify-between max800:flex-col items-start">
-        <ul className="flex flex-col  mb-9 max800:h-[55vh] h-[60vh] max800:max-h-[20rem] max-w-[30rem] w-[90vw] mt-6 overflow-scroll">
+      <div className="flex w-[85vw] justify-between max800:flex-col items-start max800:items-center  mt-6 ">
+        <ul className="flex flex-col  mb-9 max800:h-[55vh] h-[60vh] max800:max-h-[20rem] max-w-[30rem] w-[85vw] overflow-scroll">
           {expenses.map((expense, index) => {
             const date = new Date(expense.time).toString().split(" ");
-
-            let Style;
-
-            if (index % 2 === 0) Style = "categoryListLight";
-            else Style = "categoryListDark";
 
             return (
               <li
                 key={index + 1}
-                className={`flex p-[0.4rem] max500:px-[0.2rem] relative  rounded-sm max500:text-[0.8rem] ${Style}`}
+                className={`flex p-[0.4rem] max500:px-[0.2rem] relative  rounded-sm max500:text-[0.8rem] bg-slate-100 border-y-2 border-b-slate-800 border-t-0`}
                 draggable={true}
                 onDragStart={(e) => {
                   e.dataTransfer.setData("expenseId", expense._id);
@@ -522,139 +517,28 @@ const Category = () => {
                 )}
               </li>
             );
-
-            // if (index % 2 === 1) {
-            //   return (
-            //     <li
-            //       key={index + 1}
-            //       className="flex p-[0.4rem] max500:px-[0.2rem] relative bg-slate-300 text-slate-900 border-b-2 border-slate-800 rounded-sm max500:text-[0.8rem] "
-            //       draggable={true}
-            //       onDragStart={(e) => {
-            //         e.dataTransfer.setData("expenseId", expense._id);
-            //       }}
-            //     >
-            //       <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
-            //         {expense.title}
-            //       </p>
-            //       <span className="absolute flex right-9 max500:right-7">
-            //         <p className="ml-1">{date[2]}</p>
-            //         <p className="ml-1 ">{date[1]}</p>
-            //         <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4  text-right overflow-hidden h-7">
-            //           ₹{expense.amount}
-            //         </p>
-            //       </span>
-            //       {isRemoving && (
-            //         <AiOutlineClose
-            //           className="absolute cursor-pointer right-1 top-1"
-            //           size="1rem"
-            //           onClick={() => {
-            //             DeleteHandler(expense);
-            //           }}
-            //         />
-            //       )}
-            //       {isEditing && (
-            //         <MdEdit
-            //           className="absolute cursor-pointer right-1 top-1"
-            //           size="1rem"
-            //           onClick={() => {
-            //             const result = window.confirm("Want to Edit?");
-            //             if (result) {
-            //               setTitle(expense.title);
-            //               setAmount(expense.amount);
-            //               SetEditingExpenseId(expense._id);
-            //               setIsAdding(true);
-            //             }
-            //           }}
-            //         />
-            //       )}
-            //     </li>
-            //   );
-            // } else {
-            //   return (
-            //     <li
-            //       key={index + 1}
-            //       className="flex p-[0.4rem] max500:px-[0.2rem] relative text-slate-50 bg-slate-600 border-b-2 border-slate-700 rounded max500:text-[0.8rem] "
-            //       draggable={true}
-            //       onDragStart={(e) => {
-            //         e.dataTransfer.setData("expenseId", expense._id);
-            //       }}
-            //     >
-            //       <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
-            //         {expense.title}
-            //       </p>
-            //       <span className="absolute flex right-9 max500:right-7">
-            //         <p className="ml-1">{date[2]}</p>
-            //         <p className="ml-1 ">{date[1]}</p>
-            //         <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4 text-right overflow-hidden h-7">
-            //           ₹{expense.amount}
-            //         </p>
-            //       </span>
-            //       {isRemoving && (
-            //         <AiOutlineClose
-            //           className="absolute cursor-pointer right-1 top-1"
-            //           size="1rem"
-            //           onClick={() => {
-            //             DeleteHandler(expense);
-            //           }}
-            //         />
-            //       )}
-            //       {isEditing && (
-            //         <MdEdit
-            //           className="absolute cursor-pointer right-1 top-1"
-            //           size="1rem"
-            //           onClick={() => {
-            //             const result = window.confirm("Want to Edit?");
-            //             if (result) {
-            //               setTitle(expense.title);
-            //               setAmount(expense.amount);
-            //               SetEditingExpenseId(expense._id);
-            //               setIsAdding(true);
-            //             }
-            //           }}
-            //         />
-            //       )}
-            //     </li>
-            //   );
-            // }
           })}
         </ul>
-        <div className="p-3  m-2 bg-Color4 rounded-md shadow-lg max-w-[30rem] w-[27vw]  flex justify-center items-center flex-col max800:w-[80vw]">
-          <h3 className="text-[1.2rem] inderFont">Weekly Category</h3>
-          <div className="max-w-[30rem] w-[25vw] max800:w-[80vw]">
-            <Pie
+        <div className="p-3  m-2 mt-0 bg-Color4 rounded-md shadow-lg max-w-[20rem] w-[90vw]  flex justify-center items-center mb-24 flex-col">
+          <div className="max-w-[20rem] w-[90vw] px-3 ">
+            <Bar
               data={{
-                labels: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ],
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                 datasets: [
                   {
+                    label: "Week",
                     data: weeklyDatas,
-                    backgroundColor: [
-                      "#ff5964",
-                      "#38618c",
-                      "#35a7ff",
-                      "#c81b25",
-                      "#3bbc26",
-                      "#26bc98",
-                      "#fad30f",
-                    ],
-                    hoverBackgroundColor: [
-                      "#ff5964",
-                      "#38618c",
-                      "#35a7ff",
-                      "#c81b25",
-                      "#3bbc26",
-                      "#26bc98",
-                      "#fad30f",
-                    ],
+                    backgroundColor: ["#ff5964"],
+                    hoverBackgroundColor: ["#ff5964"],
                   },
                 ],
+              }}
+              options={{
+                // indexAxis: "y",
+                // maintainAspectRatio: true,
+                animation: {
+                  onComplete: "true ",
+                },
               }}
             />
           </div>

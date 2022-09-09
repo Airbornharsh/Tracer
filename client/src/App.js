@@ -71,7 +71,7 @@ function App() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen min-w-screen bg-slate-200">
+    <div className="flex flex-col items-center justify-start min-h-screen min-w-screen bg-slate-300">
       {loader ? (
         <div className=" wrapper gooey">
           <span className="dot"></span>
