@@ -77,14 +77,14 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-[28rem] bg-white my-28 rounded-xl shadow-xl relative flex flex-col items-center w-[90vw]">
-      <form className="inderFont flex flex-col px-[4rem] py-6 max500:px-[1rem]  items-center ">
+    <div className="max-w-[25rem] bg-slate-50 my-28 rounded-xl shadow-xl relative flex flex-col items-center w-[90vw]">
+      <form className="inderFont flex flex-col px-[2rem] py-6 max500:px-[1rem]  items-center ">
         <ul className="mb-7">
-          <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Email Id</label>
+          <li className="flex flex-col mb-3">
+            <label className="text-slate-700">Email Id</label>
             <input
               type="Email"
-              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className="w-[80vw] max-w-[20rem] h-10 bg-slate-200 p-1 px-2 text-[0.9rem]"
               placeholder="Enter Your EmailId"
               value={emailId}
               onChange={(e) => {
@@ -92,11 +92,11 @@ const Login = () => {
               }}
             />
           </li>
-          <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Password</label>
+          <li className="flex flex-col mb-3">
+            <label className="text-slate-700">Password</label>
             <input
               type="Password"
-              className=" h-10 bg-Color2 p-1 px-2 w-[80vw] max-w-[20rem]"
+              className="h-10 bg-slate-200 p-1 px-2 w-[80vw] max-w-[20rem] text-[0.9rem]"
               placeholder="Write Your Password Here ..."
               value={password}
               onChange={(e) => {
@@ -106,13 +106,13 @@ const Login = () => {
           </li>
         </ul>
         <button
-          className="bg-Color3 rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
+          className="bg-slate-700 text-slate-200 rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
           onClick={LoginSubmit}
         >
           Login
         </button>
       </form>
-      <Link to="/user/register" className="pb-6">
+      <Link to="/user/register" className="mb-5 text-slate-600">
         Register Instead
       </Link>
     </div>

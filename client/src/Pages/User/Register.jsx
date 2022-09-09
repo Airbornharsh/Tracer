@@ -71,9 +71,9 @@ const Register = () => {
       <form className="inderFont flex flex-col px-[4rem] max500:px-[1rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Name</label>
+            <label className="text-slate-700">Name</label>
             <input
-              className=" h-10 bg-Color2 p-1 px-2 w-[80vw] max-w-[20rem]"
+              className=" h-10 bg-slate-200 p-1 px-2 w-[80vw] max-w-[20rem] text-[0.9rem]"
               placeholder="Enter Your Name"
               value={name}
               onChange={(e) => {
@@ -82,10 +82,10 @@ const Register = () => {
             />
           </li>
           <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Email Id</label>
+            <label className="text-slate-700">Email Id</label>
             <input
               type="Email"
-              className=" h-10 bg-Color2 p-1 px-2 w-[80vw] max-w-[20rem]"
+              className=" h-10 bg-slate-200 p-1 px-2 w-[80vw] max-w-[20rem] text-[0.9rem]"
               placeholder="Enter Your EmailId"
               value={emailId}
               onChange={(e) => {
@@ -94,10 +94,10 @@ const Register = () => {
             />
           </li>
           <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Password</label>
+            <label className="text-slate-700">Password</label>
             <input
               type="Password"
-              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className="text-[0.9rem] w-[80vw] max-w-[20rem] h-10 bg-slate-200 p-1 px-2"
               placeholder="Password"
               value={password}
               onChange={(e) => {
@@ -106,10 +106,10 @@ const Register = () => {
             />
           </li>
           <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Confirm Password</label>
+            <label className="text-slate-700">Confirm Password</label>
             <input
               type="text"
-              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className="text-[0.9rem] w-[80vw] max-w-[20rem] h-10 bg-slate-200 p-1 px-2"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => {
@@ -119,7 +119,7 @@ const Register = () => {
           </li>
         </ul>
         <button
-          className="bg-Color3 rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
+          className="bg-slate-700 text-slate-200  rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
           onClick={RegisterSubmit}
           disabled={!validateForm()}
         >
@@ -134,9 +134,9 @@ const Register = () => {
       <form className="inderFont flex flex-col px-[4rem] max500:px-[1rem] py-6  items-center">
         <ul className="mb-7">
           <li className="flex flex-col mb-6">
-            <label className="text-[1.5rem]">Code</label>
+            <label className="text-slate-700">Code</label>
             <input
-              className="w-[80vw] max-w-[20rem] h-10 bg-Color2 p-1 px-2"
+              className="text-[0.9rem] w-[80vw] max-w-[20rem] h-10 bg-slate-200 p-1 px-2"
               type="number"
               placeholder="Type Your Otp"
               value={otp}
@@ -147,7 +147,7 @@ const Register = () => {
           </li>
         </ul>
         <button
-          className="bg-Color3 rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
+          className="bg-slate-700 text-slate-200  rounded-md shadow-md w-[7.1rem] py-2 flex justify-center items-center"
           onClick={VerifySubmit}
         >
           Verify Code
@@ -158,7 +158,7 @@ const Register = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="max-w-[28rem] w-[90vw] bg-white rounded-xl shadow-xl relative flex flex-col items-center">
+      <div className="max-w-[25rem] w-[90vw] bg-white rounded-xl shadow-xl relative flex flex-col items-center">
         {!isCodeSent ? sendingCode() : verifyingCode()}
         <Link to="/user/login" className="pb-5">
           Login Instead

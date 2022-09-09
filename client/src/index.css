@@ -230,3 +230,23 @@
     transform: translateX(-31px);
   }
 }
+
+.categoryListLight {
+  background-color: rgb(203 213 225);
+  color: rgb(30 41 59);
+}
+
+.categoryListDark {
+  background-color: rgb(100 116 139);
+  color: rgb(226 232 240);
+}
+
+.profileListLight {
+  background-color: rgb(226 232 240);
+  color: rgb(30 41 59);
+}
+
+.profileListDark {
+  background-color: rgb(148 163 184);
+  color: white;
+}

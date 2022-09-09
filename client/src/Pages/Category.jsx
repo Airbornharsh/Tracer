@@ -12,9 +12,8 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { AiOutlinePlus } from "react-icons/ai";
 import { ImArrowUpRight2 } from "react-icons/im";
 import CategoryRenderData from "../Utils/Data/CategoryRenderData";
 import Context from "../Context/Context";
@@ -79,7 +78,10 @@ const Category = () => {
       const day6 = { maxAmount: 0 };
 
       datas.map((data) => {
-        if (new Date(data.time).toString().split(" ")[1] === thisMonth) {
+        if (
+          new Date(data.time).toString().split(" ")[1] === thisMonth &&
+          data.category === params.categoryid
+        ) {
           switch (new Date(data.time).toString().split(" ")[0]) {
             case "Mon":
               day0.maxAmount += data.amount;
@@ -465,101 +467,160 @@ const Category = () => {
           );
         })}
       </ul> */}
-      <div className="flex w-[80vw] justify-between max800:flex-col">
-        <ul className="flex flex-col  mb-9 h-[55vh] max-h-[20rem] max-w-[30rem] w-[90vw] mt-6 overflow-scroll">
+      <div className="flex w-[80vw] justify-between max800:flex-col items-start">
+        <ul className="flex flex-col  mb-9 max800:h-[55vh] h-[60vh] max800:max-h-[20rem] max-w-[30rem] w-[90vw] mt-6 overflow-scroll">
           {expenses.map((expense, index) => {
             const date = new Date(expense.time).toString().split(" ");
 
-            if (index % 2 === 1) {
-              return (
-                <li
-                  key={index + 1}
-                  className="flex p-[0.4rem] max500:px-[0.2rem] relative bg-slate-400 text-white rounded max500:text-[0.8rem] "
-                >
-                  <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
-                    {expense.title}
+            let Style;
+
+            if (index % 2 === 0) Style = "categoryListLight";
+            else Style = "categoryListDark";
+
+            return (
+              <li
+                key={index + 1}
+                className={`flex p-[0.4rem] max500:px-[0.2rem] relative  rounded-sm max500:text-[0.8rem] ${Style}`}
+                draggable={true}
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("expenseId", expense._id);
+                }}
+              >
+                <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
+                  {expense.title}
+                </p>
+                <span className="absolute flex right-9 max500:right-7">
+                  <p className="ml-1">{date[2]}</p>
+                  <p className="ml-1 ">{date[1]}</p>
+                  <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4  text-right overflow-hidden h-7">
+                    ₹{expense.amount}
                   </p>
-                  <span className="absolute flex right-9 max500:right-7">
-                    <p className="ml-1">{date[2]}</p>
-                    <p className="ml-1 ">{date[1]}</p>
-                    <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4  text-right overflow-hidden h-7">
-                      ₹{expense.amount}
-                    </p>
-                  </span>
-                  {isRemoving && (
-                    <AiOutlineClose
-                      className="absolute cursor-pointer right-1 top-1"
-                      size="1rem"
-                      onClick={() => {
-                        DeleteHandler(expense);
-                      }}
-                    />
-                  )}
-                  {isEditing && (
-                    <MdEdit
-                      className="absolute cursor-pointer right-1 top-1"
-                      size="1rem"
-                      onClick={() => {
-                        const result = window.confirm("Want to Edit?");
-                        if (result) {
-                          setTitle(expense.title);
-                          setAmount(expense.amount);
-                          SetEditingExpenseId(expense._id);
-                          setIsAdding(true);
-                        }
-                      }}
-                    />
-                  )}
-                </li>
-              );
-            } else {
-              return (
-                <li
-                  key={index + 1}
-                  className="flex p-[0.4rem] max500:px-[0.2rem] relative text-black bg-slate-100 rounded max500:text-[0.8rem] "
-                >
-                  <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
-                    {expense.title}
-                  </p>
-                  <span className="absolute flex right-9 max500:right-7">
-                    <p className="ml-1">{date[2]}</p>
-                    <p className="ml-1 ">{date[1]}</p>
-                    <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4 text-right overflow-hidden h-7">
-                      ₹{expense.amount}
-                    </p>
-                  </span>
-                  {isRemoving && (
-                    <AiOutlineClose
-                      className="absolute cursor-pointer right-1 top-1"
-                      size="1rem"
-                      onClick={() => {
-                        DeleteHandler(expense);
-                      }}
-                    />
-                  )}
-                  {isEditing && (
-                    <MdEdit
-                      className="absolute cursor-pointer right-1 top-1"
-                      size="1rem"
-                      onClick={() => {
-                        const result = window.confirm("Want to Edit?");
-                        if (result) {
-                          setTitle(expense.title);
-                          setAmount(expense.amount);
-                          SetEditingExpenseId(expense._id);
-                          setIsAdding(true);
-                        }
-                      }}
-                    />
-                  )}
-                </li>
-              );
-            }
+                </span>
+                {isRemoving && (
+                  <AiOutlineClose
+                    className="absolute cursor-pointer right-1 top-1"
+                    size="1rem"
+                    onClick={() => {
+                      DeleteHandler(expense);
+                    }}
+                  />
+                )}
+                {isEditing && (
+                  <MdEdit
+                    className="absolute cursor-pointer right-1 top-1"
+                    size="1rem"
+                    onClick={() => {
+                      const result = window.confirm("Want to Edit?");
+                      if (result) {
+                        setTitle(expense.title);
+                        setAmount(expense.amount);
+                        SetEditingExpenseId(expense._id);
+                        setIsAdding(true);
+                      }
+                    }}
+                  />
+                )}
+              </li>
+            );
+
+            // if (index % 2 === 1) {
+            //   return (
+            //     <li
+            //       key={index + 1}
+            //       className="flex p-[0.4rem] max500:px-[0.2rem] relative bg-slate-300 text-slate-900 border-b-2 border-slate-800 rounded-sm max500:text-[0.8rem] "
+            //       draggable={true}
+            //       onDragStart={(e) => {
+            //         e.dataTransfer.setData("expenseId", expense._id);
+            //       }}
+            //     >
+            //       <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
+            //         {expense.title}
+            //       </p>
+            //       <span className="absolute flex right-9 max500:right-7">
+            //         <p className="ml-1">{date[2]}</p>
+            //         <p className="ml-1 ">{date[1]}</p>
+            //         <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4  text-right overflow-hidden h-7">
+            //           ₹{expense.amount}
+            //         </p>
+            //       </span>
+            //       {isRemoving && (
+            //         <AiOutlineClose
+            //           className="absolute cursor-pointer right-1 top-1"
+            //           size="1rem"
+            //           onClick={() => {
+            //             DeleteHandler(expense);
+            //           }}
+            //         />
+            //       )}
+            //       {isEditing && (
+            //         <MdEdit
+            //           className="absolute cursor-pointer right-1 top-1"
+            //           size="1rem"
+            //           onClick={() => {
+            //             const result = window.confirm("Want to Edit?");
+            //             if (result) {
+            //               setTitle(expense.title);
+            //               setAmount(expense.amount);
+            //               SetEditingExpenseId(expense._id);
+            //               setIsAdding(true);
+            //             }
+            //           }}
+            //         />
+            //       )}
+            //     </li>
+            //   );
+            // } else {
+            //   return (
+            //     <li
+            //       key={index + 1}
+            //       className="flex p-[0.4rem] max500:px-[0.2rem] relative text-slate-50 bg-slate-600 border-b-2 border-slate-700 rounded max500:text-[0.8rem] "
+            //       draggable={true}
+            //       onDragStart={(e) => {
+            //         e.dataTransfer.setData("expenseId", expense._id);
+            //       }}
+            //     >
+            //       <p className="pl-3  max500:h-[1.2rem] h-[1.7rem] w-[12rem] max500:pl-1 max500:w-[25vw] overflow-hidden">
+            //         {expense.title}
+            //       </p>
+            //       <span className="absolute flex right-9 max500:right-7">
+            //         <p className="ml-1">{date[2]}</p>
+            //         <p className="ml-1 ">{date[1]}</p>
+            //         <p className="max500:w-[3.7rem] w-[4.7rem] max500:ml-2 ml-4 text-right overflow-hidden h-7">
+            //           ₹{expense.amount}
+            //         </p>
+            //       </span>
+            //       {isRemoving && (
+            //         <AiOutlineClose
+            //           className="absolute cursor-pointer right-1 top-1"
+            //           size="1rem"
+            //           onClick={() => {
+            //             DeleteHandler(expense);
+            //           }}
+            //         />
+            //       )}
+            //       {isEditing && (
+            //         <MdEdit
+            //           className="absolute cursor-pointer right-1 top-1"
+            //           size="1rem"
+            //           onClick={() => {
+            //             const result = window.confirm("Want to Edit?");
+            //             if (result) {
+            //               setTitle(expense.title);
+            //               setAmount(expense.amount);
+            //               SetEditingExpenseId(expense._id);
+            //               setIsAdding(true);
+            //             }
+            //           }}
+            //         />
+            //       )}
+            //     </li>
+            //   );
+            // }
           })}
         </ul>
-        <div className="p-3  m-2 bg-Color4 rounded-md shadow-lg max-w-[30rem] w-[35vw]  flex justify-center items-center flex-col max800:w-[80vw]">
-          <h3 className="text-[1.2rem] inderFont">Category</h3>
-          <div className="max-w-[30rem] w-[33vw] max800:w-[80vw]">
+        <div className="p-3  m-2 bg-Color4 rounded-md shadow-lg max-w-[30rem] w-[27vw]  flex justify-center items-center flex-col max800:w-[80vw]">
+          <h3 className="text-[1.2rem] inderFont">Weekly Category</h3>
+          <div className="max-w-[30rem] w-[25vw] max800:w-[80vw]">
             <Pie
               data={{
                 labels: [

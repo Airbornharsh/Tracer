@@ -11,7 +11,7 @@ const Home = () => {
     <div className="flex items-center justify-center min-h-[clac(100vh-8rem)]">
       {UserCtx.isLogged ? (
         <div className="flex flex-col items-center pt-10">
-          <ul className="flex justify-start  max-w-[80rem] w-[80vw] flex-wrap max500:w-[97vw]">
+          <ul className="flex justify-center  max-w-[80rem] w-[80vw] flex-wrap max500:w-[97vw]">
             {CategoryRenderData.map((data) => {
               return (
                 <li
